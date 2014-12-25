@@ -1,21 +1,38 @@
 #include "PlayState.h"
 #include "PauseState.h"
 
+using namespace Ogre;
+
 template<> PlayState* Ogre::Singleton<PlayState>::msSingleton = 0;
 
 void
 PlayState::enter ()
 {
-  _root = Ogre::Root::getSingletonPtr();
+	_root = Ogre::Root::getSingletonPtr();
 
-  // Se recupera el gestor de escena y la cámara.
-  _sceneMgr = _root->getSceneManager("SceneManager");
-  _camera = _sceneMgr->getCamera("IntroCamera");
-  _viewport = _root->getAutoCreatedWindow()->addViewport(_camera);
-  // Nuevo background colour.
-  _viewport->setBackgroundColour(Ogre::ColourValue(0.0, 0.0, 1.0));
+	// Se recupera el gestor de escena y la cámara.
+	_sceneMgr = _root->getSceneManager("SceneManager");
+	_camera = _sceneMgr->getCamera("IntroCamera");
+	_viewport = _root->getAutoCreatedWindow()->addViewport(_camera);
+	
+	//Camera configuration
+	_camera->lookAt(Vector3(0, -15, -30));
+	_camera->setNearClipDistance(0.1);
+	_camera->setFarClipDistance(100);
+	
+	// Nuevo background colour.
+	_viewport->setBackgroundColour(Ogre::ColourValue(0.0, 0.0, 0.0));
 
-  _exitGame = false;
+	//Paddle Initialization
+	Ogre::Entity* ent1 = _sceneMgr->createEntity("cube.mesh");
+	ent1->setQueryFlags(PLAYER);
+	Ogre::SceneNode* node1 = _sceneMgr->createSceneNode("playerPaddle");
+	node1->attachObject(ent1);
+	_sceneMgr->getRootSceneNode()->addChild(node1);
+	node1->setScale(4,1,1.2);
+	node1->setPosition(0,-30,-40); 
+
+	_exitGame = false;
 }
 
 void
