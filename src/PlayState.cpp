@@ -31,6 +31,14 @@ PlayState::enter ()
 	_sceneMgr->getRootSceneNode()->addChild(node1);
 	node1->setScale(4,1,1.2);
 	node1->setPosition(0,-30,-40); 
+	
+	//Ball initialization
+	ent1 = _sceneMgr->createEntity("Cube.001.mesh");
+	node1 = _sceneMgr->createSceneNode("ball");
+	node1->attachObject(ent1);
+	_sceneMgr->getRootSceneNode()->addChild(node1);
+	node1->setScale(1,1,1);
+	node1->setPosition(0,-20,-40); 
 
 	_exitGame = false;
 }
