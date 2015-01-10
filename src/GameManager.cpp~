@@ -46,7 +46,7 @@ void GameManager::start (GameState* state)
 
 	// Bucle de rendering.
 	_root->startRendering();
-}
+	}
 
 void GameManager::changeState (GameState* state)
 {

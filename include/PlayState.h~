@@ -66,9 +66,6 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   Ogre::SceneNode* _paddle; // Nodo de la pala
   Ogre::SceneNode* _ball;   // Nodo de la bola
   Ogre::SceneNode* _block;  // Nodo del bloque
-
-  bool _DRight;
-  bool _DLeft;
  
   bool _exitGame;
 };

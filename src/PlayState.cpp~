@@ -141,10 +141,10 @@ void PlayState::paddleMove ()
 	
 	
 	if (_DRight){
-		if (_paddle->getPosition().x < 20) vt += Ogre::Vector3(1, 0, 0);
+		if (_paddle->getPosition().x < 10) vt += Ogre::Vector3(1, 0, 0);
 	}
 	if (_DLeft){
-		if (_paddle->getPosition().x > -20) vt += Ogre::Vector3(-1, 0, 0);
+		if (_paddle->getPosition().x > -10) vt += Ogre::Vector3(-1, 0, 0);
 	}
 
 	_paddle->translate(vt);

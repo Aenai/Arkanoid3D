@@ -18,29 +18,25 @@
  * General Public License for more details.  
  *********************************************************************/
 
-#ifndef PlayState_H
-#define PlayState_H
+#ifndef PauseState_H
+#define PauseState_H
 
 #include <Ogre.h>
 #include <OIS/OIS.h>
 
 #include "GameState.h"
 
-#define PLAYER 1 << 0  // Mascara para el escenario
-#define CUBE1 1 << 1  // Mascara para objetos de tipo 1
-#define CUBE2 1 << 2  // Mascara para objetos de tipo 2
-
-class PlayState : public Ogre::Singleton<PlayState>, public GameState
+class PauseState : public Ogre::Singleton<PauseState>, public GameState
 {
  public:
-  PlayState () {}
+  PauseState() {}
 
   void enter ();
   void exit ();
   void pause ();
   void resume ();
 
-  void keyPressed (const OIS::KeyEvent &e);
+  bool keyPressed (const OIS::KeyEvent &e);
   void keyReleased (const OIS::KeyEvent &e);
 
   void mouseMoved (const OIS::MouseEvent &e);
@@ -51,11 +47,8 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   bool frameEnded (const Ogre::FrameEvent& evt);
 
   // Heredados de Ogre::Singleton.
-  static PlayState& getSingleton ();
-  static PlayState* getSingletonPtr ();
-
-  // Funciones propias
-  void paddleMove ();
+  static PauseState& getSingleton ();
+  static PauseState* getSingletonPtr ();
 
  protected:
   Ogre::Root* _root;
@@ -63,13 +56,6 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   Ogre::Viewport* _viewport;
   Ogre::Camera* _camera;
 
-  Ogre::SceneNode* _paddle; // Nodo de la pala
-  Ogre::SceneNode* _ball;   // Nodo de la bola
-  Ogre::SceneNode* _block;  // Nodo del bloque
-
-  bool _DRight;
-  bool _DLeft;
- 
   bool _exitGame;
 };
 

@@ -2,10 +2,7 @@
 
 template<> InputManager* Ogre::Singleton<InputManager>::msSingleton = 0;
 
-InputManager::InputManager (): 
-	_inputSystem(0), 
-	_keyboard(0), 
-	_mouse(0)
+InputManager::InputManager (): _inputSystem(0), _keyboard(0), _mouse(0)
 {
 }
 
