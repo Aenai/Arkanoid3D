@@ -114,6 +114,16 @@ void PlayState::keyReleased (const OIS::KeyEvent &e)
 
 void PlayState::mouseMoved (const OIS::MouseEvent &e)
 {
+	Real posx = e.state.X.rel;
+	if (posx >= 0){
+		_DRight = true;
+		_DLeft = false;
+	}
+	if (posx <= 0){
+		_DRight = false;
+		_DLeft = true;
+	}
+
 }
 
 void PlayState::mousePressed (const OIS::MouseEvent &e, OIS::MouseButtonID id)

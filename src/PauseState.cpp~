@@ -41,7 +41,7 @@ bool PauseState::frameEnded (const Ogre::FrameEvent& evt)
 	return true;
 }
 
-bool PauseState::keyPressed (const OIS::KeyEvent &e) {
+void PauseState::keyPressed (const OIS::KeyEvent &e) {
 	// Tecla p --> Estado anterior.
 	if (e.key == OIS::KC_P) {
 		popState();
