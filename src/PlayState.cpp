@@ -115,14 +115,22 @@ void PlayState::keyReleased (const OIS::KeyEvent &e)
 void PlayState::mouseMoved (const OIS::MouseEvent &e)
 {
 	Real posx = e.state.X.rel;
-	if (posx >= 0){
-		_DRight = true;
-		_DLeft = false;
+	Ogre::Vector3 vt(0, 0, 0);
+	if (posx > 0){
+		if (_paddle->getPosition().x < 20) vt += Ogre::Vector3(1, 0, 0);
+		//_DRight = true;
+		//_DLeft = false;
 	}
-	if (posx <= 0){
+	if (posx < 0){
+		if (_paddle->getPosition().x > -20) vt += Ogre::Vector3(-1, 0, 0);
+		//_DRight = false;
+		//_DLeft = true;
+	}
+	if (posx == 0){
 		_DRight = false;
-		_DLeft = true;
+		_DLeft = false;	
 	}
+	_paddle->translate(vt);
 
 }
 
