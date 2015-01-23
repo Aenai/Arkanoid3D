@@ -32,12 +32,15 @@ void PlayState::enter ()
 	_paddle->setPosition(0,-30,-40); 
 	
 	//Ball initialization
+	Ogre::SceneNode* _ball;
 	ent1 = _sceneMgr->createEntity("ball", "Cube.001.mesh");
 	_ball = _sceneMgr->createSceneNode("ball");
 	_ball->attachObject(ent1);
 	_sceneMgr->getRootSceneNode()->addChild(_ball);
 	_ball->setScale(1,1,1);
 	_ball->setPosition(0,-25,-40);
+	playBall = new Ball(_ball);
+	playBall->startMatch(); //FIXME temporary call method
 
 	//Inicializar variables
 	_DRight = false;
@@ -67,6 +70,7 @@ void PlayState::resume()
 
 bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 {
+	playBall->update(evt);
 	return true;
 }
 

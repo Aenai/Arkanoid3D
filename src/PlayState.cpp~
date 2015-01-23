@@ -32,12 +32,15 @@ void PlayState::enter ()
 	_paddle->setPosition(0,-30,-40); 
 	
 	//Ball initialization
+	Ogre::SceneNode* _ball;
 	ent1 = _sceneMgr->createEntity("ball", "Cube.001.mesh");
 	_ball = _sceneMgr->createSceneNode("ball");
 	_ball->attachObject(ent1);
 	_sceneMgr->getRootSceneNode()->addChild(_ball);
 	_ball->setScale(1,1,1);
 	_ball->setPosition(0,-25,-40);
+	playBall = new Ball(_ball);
+	playBall->startMatch() //FIXME temporary call method
 
 	//Inicializar variables
 	_DRight = false;
@@ -67,6 +70,7 @@ void PlayState::resume()
 
 bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 {
+	playBall->update(evt);
 	return true;
 }
 
@@ -115,18 +119,22 @@ void PlayState::keyReleased (const OIS::KeyEvent &e)
 void PlayState::mouseMoved (const OIS::MouseEvent &e)
 {
 	Real posx = e.state.X.rel;
+	Ogre::Vector3 vt(0, 0, 0);
 	if (posx > 0){
-		_DRight = true;
-		_DLeft = false;
+		if (_paddle->getPosition().x < 20) vt += Ogre::Vector3(1, 0, 0);
+		//_DRight = true;
+		//_DLeft = false;
 	}
 	if (posx < 0){
-		_DRight = false;
-		_DLeft = true;
+		if (_paddle->getPosition().x > -20) vt += Ogre::Vector3(-1, 0, 0);
+		//_DRight = false;
+		//_DLeft = true;
 	}
 	if (posx == 0){
 		_DRight = false;
 		_DLeft = false;	
 	}
+	_paddle->translate(vt);
 
 }
 

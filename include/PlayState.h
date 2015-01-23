@@ -25,6 +25,7 @@
 #include <OIS/OIS.h>
 
 #include "GameState.h"
+#include "Ball.h"
 
 #define PLAYER 1 << 0  // Mascara para el escenario
 #define CUBE1 1 << 1  // Mascara para objetos de tipo 1
@@ -64,8 +65,11 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   Ogre::Camera* _camera;
 
   Ogre::SceneNode* _paddle; // Nodo de la pala
-  Ogre::SceneNode* _ball;   // Nodo de la bola
+  //Ogre::SceneNode* _ball;   // Nodo de la bola
   Ogre::SceneNode* _block;  // Nodo del bloque
+  
+  Ball* playBall;
+  
 
   bool _DRight;
   bool _DLeft;

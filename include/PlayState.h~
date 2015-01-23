@@ -62,11 +62,13 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   Ogre::SceneManager* _sceneMgr;
   Ogre::Viewport* _viewport;
   Ogre::Camera* _camera;
-  OIS::Mouse* _mouse;
 
   Ogre::SceneNode* _paddle; // Nodo de la pala
-  Ogre::SceneNode* _ball;   // Nodo de la bola
+  //Ogre::SceneNode* _ball;   // Nodo de la bola
   Ogre::SceneNode* _block;  // Nodo del bloque
+  
+  Ball* playBall;
+  
 
   bool _DRight;
   bool _DLeft;
