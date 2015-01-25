@@ -21,6 +21,14 @@ void Ball::update(const Ogre::FrameEvent& evt){
 
 void Ball::startMatch(){
 	
-	_ySpeed=-1;
+	_ySpeed=-3;
 	
+}
+
+void Ball::collisionPaddle(float newSpeedX){
+	
+	if(_ySpeed < 0){
+		_ySpeed = -_ySpeed;
+		_xSpeed = newSpeedX;
+	}
 }

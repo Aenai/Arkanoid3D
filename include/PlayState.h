@@ -65,16 +65,28 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   Ogre::Camera* _camera;
 
   Ogre::SceneNode* _paddle; // Nodo de la pala
-  //Ogre::SceneNode* _ball;   // Nodo de la bola
+  Ogre::SceneNode* _ball;
   Ogre::SceneNode* _block;  // Nodo del bloque
   
   Ball* playBall;
   
-
+	
   bool _DRight;
   bool _DLeft;
+  
+  //FIXME Variables necesarias de Paddle, recomendarlo incorporarlo en la propia clase Paddle
+  float _paddleHalfWidth;
+  
+  //Game Logic Variables
+  float _yCollisionCheck;
+  float _yMinBall;
  
   bool _exitGame;
+  
+  //Support Methods
+  void updateVariables();
+  bool checkInRange(float participant, float center, float range);
+  
 };
 
 #endif

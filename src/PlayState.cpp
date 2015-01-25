@@ -1,5 +1,6 @@
 #include "PlayState.h"
 #include "PauseState.h"
+#include <math.h> /*fabs*/
 
 using namespace Ogre;
 
@@ -32,21 +33,24 @@ void PlayState::enter ()
 	_paddle->setPosition(0,-30,-40); 
 	
 	//Ball initialization
-	Ogre::SceneNode* _ball;
 	ent1 = _sceneMgr->createEntity("ball", "Cube.001.mesh");
 	_ball = _sceneMgr->createSceneNode("ball");
 	_ball->attachObject(ent1);
 	_sceneMgr->getRootSceneNode()->addChild(_ball);
 	_ball->setScale(1,1,1);
-	_ball->setPosition(0,-25,-40);
+	_ball->setPosition(0,-20,-40);
 	playBall = new Ball(_ball);
-	playBall->startMatch(); //FIXME temporary call method
+
 
 	//Inicializar variables
 	_DRight = false;
 	_DLeft = false;
-	   	
-
+	
+	_yCollisionCheck = -100;
+	_yMinBall = 100;
+	updateVariables();
+	playBall->startMatch(); //FIXME temporary call method
+	
 	_exitGame = false;
 }
 
@@ -68,9 +72,28 @@ void PlayState::resume()
 	_viewport->setBackgroundColour(Ogre::ColourValue(0.0, 0.0, 1.0));
 }
 
+
+//================Frame Control====================
+
 bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 {
 	playBall->update(evt);
+	updateVariables();
+	
+	
+	//Check Paddle Collision
+	if(_yMinBall <= _yCollisionCheck && fabs(_yMinBall-_yCollisionCheck) < 0.5 && _yCollisionCheck != 1){
+		std::cout << _yMinBall << " " << _yCollisionCheck  << std::endl; //FIXME
+		
+		float _xBall = _ball->getPosition().x;
+		float _xPaddle = _paddle->getPosition().x;
+		
+		if(checkInRange(_xBall,_xPaddle,_paddleHalfWidth)){
+			playBall->collisionPaddle(_xBall - _xPaddle);
+		}
+	}
+	
+	
 	return true;
 }
 
@@ -100,6 +123,19 @@ void PlayState::keyPressed (const OIS::KeyEvent &e)
 		//_sceneMgr->getSceneNode("playerPaddle")->translate(Vector3(-1, 0, 0));
 		_DLeft = true;
 	}
+	
+	if(e.key == OIS::KC_X){
+	  	Ogre::Entity* boardEntity = static_cast<Ogre::Entity*>(_paddle->getAttachedObject(0));
+	  	
+		Ogre::AxisAlignedBox charAABB = boardEntity->getWorldBoundingBox();
+		Ogre::Vector3 min = charAABB.getMinimum();
+		Ogre::Vector3 max = charAABB.getMaximum();
+		//Ogre::Vector3 center = charAABB.getCenter();
+		Ogre::Vector3 size( fabs( max.x - min.x), fabs( max.y - min.y), fabs( max.z - min.z ) );
+		std::cout << size[0] << " " << size[1] << " "<< size[2] <<std::endl;
+		
+		playBall->startMatch();
+	  }
 }
 
 void PlayState::keyReleased (const OIS::KeyEvent &e)
@@ -172,3 +208,29 @@ void PlayState::paddleMove ()
 	_paddle->translate(vt);
 
 }
+
+void PlayState::updateVariables(){
+	//Paddle Max
+  	Ogre::Entity* boardEntity = static_cast<Ogre::Entity*>(_paddle->getAttachedObject(0));
+	Ogre::AxisAlignedBox charAABB = boardEntity->getWorldBoundingBox();
+	Ogre::Vector3 min = charAABB.getMinimum();
+	Ogre::Vector3 max = charAABB.getMaximum();
+	Ogre::Vector3 size( fabs( max.x - min.x), fabs( max.y - min.y), fabs( max.z - min.z ) );
+	_yCollisionCheck = max.y;
+	_paddleHalfWidth = size[0] / 2;
+	
+	//Ball Min
+	boardEntity = static_cast<Ogre::Entity*>(_ball->getAttachedObject(0));
+	charAABB = boardEntity->getWorldBoundingBox();
+	min = charAABB.getMinimum();
+	_yMinBall = min.y;
+	
+	//std::cout << "_yColl: " << _yCollisionCheck << " _yMin: " << _yMinBall << std::endl;
+}
+
+bool PlayState::checkInRange(float participant, float center, float range){
+	return (participant > center - range && participant < center + range);
+}
+
+
+
