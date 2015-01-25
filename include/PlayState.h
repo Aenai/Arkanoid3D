@@ -30,6 +30,11 @@
 #define PLAYER 1 << 0  // Mascara para el escenario
 #define CUBE1 1 << 1  // Mascara para objetos de tipo 1
 #define CUBE2 1 << 2  // Mascara para objetos de tipo 2
+#define XRIGHTWALL 20 //Wall Limits
+#define XLEFTWALL -20
+#define TOP -3
+
+
 
 class PlayState : public Ogre::Singleton<PlayState>, public GameState
 {
@@ -74,17 +79,17 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   bool _DRight;
   bool _DLeft;
   
-  //FIXME Variables necesarias de Paddle, recomendarlo incorporarlo en la propia clase Paddle
-  float _paddleHalfWidth;
-  
   //Game Logic Variables
   float _yCollisionCheck;
   float _yMinBall;
+  float _yMaxBall;
+  float _paddleHalfWidth;
  
   bool _exitGame;
   
   //Support Methods
   void updateVariables();
+  
   bool checkInRange(float participant, float center, float range);
   
 };

@@ -30,7 +30,7 @@ void PlayState::enter ()
 	_paddle->attachObject(ent1);
 	_sceneMgr->getRootSceneNode()->addChild(_paddle);
 	_paddle->setScale(4,1,1.2);
-	_paddle->setPosition(0,-30,-40); 
+	_paddle->setPosition(0,-35,-40); 
 	
 	//Ball initialization
 	ent1 = _sceneMgr->createEntity("ball", "Cube.001.mesh");
@@ -80,17 +80,30 @@ bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 	playBall->update(evt);
 	updateVariables();
 	
+	float _xBall = _ball->getPosition().x;
 	
 	//Check Paddle Collision
 	if(_yMinBall <= _yCollisionCheck && fabs(_yMinBall-_yCollisionCheck) < 0.5 && _yCollisionCheck != 1){
 		std::cout << _yMinBall << " " << _yCollisionCheck  << std::endl; //FIXME
 		
-		float _xBall = _ball->getPosition().x;
+
 		float _xPaddle = _paddle->getPosition().x;
 		
 		if(checkInRange(_xBall,_xPaddle,_paddleHalfWidth)){
-			playBall->collisionPaddle(_xBall - _xPaddle);
+			playBall->collisionPaddle((_xBall - _xPaddle) * 2);
 		}
+	}
+	
+	//Wall Collision
+	if(_xBall > XRIGHTWALL){
+		playBall->rightCollisionWall();
+	}else if (_xBall < XLEFTWALL){
+		playBall->leftCollisionWall();
+	}
+	
+	//Top Collision
+	if(_yMaxBall > TOP){
+		playBall->topCollision();
 	}
 	
 	
@@ -157,12 +170,12 @@ void PlayState::mouseMoved (const OIS::MouseEvent &e)
 	Real posx = e.state.X.rel;
 	Ogre::Vector3 vt(0, 0, 0);
 	if (posx > 0){
-		if (_paddle->getPosition().x < 20) vt += Ogre::Vector3(1, 0, 0);
+		if (_paddle->getPosition().x < XRIGHTWALL) vt += Ogre::Vector3(1, 0, 0);
 		//_DRight = true;
 		//_DLeft = false;
 	}
 	if (posx < 0){
-		if (_paddle->getPosition().x > -20) vt += Ogre::Vector3(-1, 0, 0);
+		if (_paddle->getPosition().x > XLEFTWALL) vt += Ogre::Vector3(-1, 0, 0);
 		//_DRight = false;
 		//_DLeft = true;
 	}
@@ -199,10 +212,10 @@ void PlayState::paddleMove ()
 	
 	
 	if (_DRight){
-		if (_paddle->getPosition().x < 20) vt += Ogre::Vector3(1, 0, 0);
+		if (_paddle->getPosition().x < XRIGHTWALL) vt += Ogre::Vector3(1, 0, 0);
 	}
 	if (_DLeft){
-		if (_paddle->getPosition().x > -20) vt += Ogre::Vector3(-1, 0, 0);
+		if (_paddle->getPosition().x > XLEFTWALL) vt += Ogre::Vector3(-1, 0, 0);
 	}
 
 	_paddle->translate(vt);
@@ -223,7 +236,9 @@ void PlayState::updateVariables(){
 	boardEntity = static_cast<Ogre::Entity*>(_ball->getAttachedObject(0));
 	charAABB = boardEntity->getWorldBoundingBox();
 	min = charAABB.getMinimum();
+	max = charAABB.getMaximum();
 	_yMinBall = min.y;
+	_yMaxBall = max.y;
 	
 	//std::cout << "_yColl: " << _yCollisionCheck << " _yMin: " << _yMinBall << std::endl;
 }

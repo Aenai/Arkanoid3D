@@ -20,6 +20,9 @@ class Ball{
   void startMatch();
   
   void collisionPaddle(float newSpeedX);
+  void rightCollisionWall();
+  void leftCollisionWall();
+  void topCollision();
 
  protected:
   Ogre::SceneNode* _ball;   // Nodo de la bola
