@@ -89,9 +89,11 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   
   //Support Methods
   void updateVariables();
-  
   bool checkInRange(float participant, float center, float range);
+
   
 };
+
+bool checkInRange(float participant, float center, float range);
 
 #endif

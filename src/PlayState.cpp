@@ -1,5 +1,6 @@
 #include "PlayState.h"
 #include "PauseState.h"
+#include "CollisionableObject.h"
 #include <math.h> /*fabs*/
 
 using namespace Ogre;
@@ -77,13 +78,17 @@ void PlayState::resume()
 
 bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 {
+	//std::cout << "prueba " << std::endl;
 	playBall->update(evt);
 	updateVariables();
 	
 	float _xBall = _ball->getPosition().x;
 	
+	CollisionableObject* obj = new CollisionableObject(_paddle, playBall);
+	obj->checkCollision(playBall);
+	
 	//Check Paddle Collision
-	if(_yMinBall <= _yCollisionCheck && fabs(_yMinBall-_yCollisionCheck) < 0.5 && _yCollisionCheck != 1){
+	/*if(_yMinBall <= _yCollisionCheck && fabs(_yMinBall-_yCollisionCheck) < 0.5 && _yCollisionCheck != 1){
 		std::cout << _yMinBall << " " << _yCollisionCheck  << std::endl; //FIXME
 		
 
@@ -92,7 +97,7 @@ bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 		if(checkInRange(_xBall,_xPaddle,_paddleHalfWidth)){
 			playBall->collisionPaddle((_xBall - _xPaddle) * 2);
 		}
-	}
+	}*/
 	
 	//Wall Collision
 	if(_xBall > XRIGHTWALL){
@@ -147,7 +152,7 @@ void PlayState::keyPressed (const OIS::KeyEvent &e)
 		Ogre::Vector3 size( fabs( max.x - min.x), fabs( max.y - min.y), fabs( max.z - min.z ) );
 		std::cout << size[0] << " " << size[1] << " "<< size[2] <<std::endl;
 		
-		playBall->startMatch();
+		playBall->bottomCollision();
 	  }
 }
 
