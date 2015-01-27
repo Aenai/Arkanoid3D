@@ -17,7 +17,7 @@ class CollisionableObject{
  public:
   CollisionableObject (Ogre::SceneNode* node, Ball* ball);
   
-  void checkCollision(Ball* ball);
+  void checkCollision();
   void updateVariables();
   
   void topCollision(float xNewSpeed);

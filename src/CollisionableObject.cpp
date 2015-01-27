@@ -13,6 +13,7 @@ CollisionableObject::CollisionableObject (Ogre::SceneNode* node, Ball* ball){
 }
 
 
+//Should be Called if the node is dynamic
 void CollisionableObject::updateVariables(){
 	
 	Ogre::AxisAlignedBox charAABB = _entity->getWorldBoundingBox();
@@ -27,10 +28,10 @@ void CollisionableObject::updateVariables(){
 }
 
 
-void CollisionableObject::checkCollision(Ball* ball){
+void CollisionableObject::checkCollision(){
 	
-	float xBall = ball->getX();
-	float yBall = ball->getY();
+	float xBall = playBall->getX();
+	float yBall = playBall->getY();
 	float error = 0.5;
 	
 	//Top Collision

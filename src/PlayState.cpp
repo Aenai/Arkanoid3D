@@ -78,26 +78,15 @@ void PlayState::resume()
 
 bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 {
-	//std::cout << "prueba " << std::endl;
 	playBall->update(evt);
 	updateVariables();
 	
 	float _xBall = _ball->getPosition().x;
 	
+	//FIXME temporary until class PADDLE is finished
 	CollisionableObject* obj = new CollisionableObject(_paddle, playBall);
-	obj->checkCollision(playBall);
-	
-	//Check Paddle Collision
-	/*if(_yMinBall <= _yCollisionCheck && fabs(_yMinBall-_yCollisionCheck) < 0.5 && _yCollisionCheck != 1){
-		std::cout << _yMinBall << " " << _yCollisionCheck  << std::endl; //FIXME
-		
-
-		float _xPaddle = _paddle->getPosition().x;
-		
-		if(checkInRange(_xBall,_xPaddle,_paddleHalfWidth)){
-			playBall->collisionPaddle((_xBall - _xPaddle) * 2);
-		}
-	}*/
+	obj->updateVariables();
+	obj->checkCollision();
 	
 	//Wall Collision
 	if(_xBall > XRIGHTWALL){
