@@ -5,7 +5,6 @@
 #include <OIS/OIS.h>
 
 #include "GameState.h"
-#include "PlayState.h"
 #include "Ball.h"
 
 #define PLAYER 1 << 0  // Mascara para el escenario
@@ -21,11 +20,16 @@ class CollisionableObject{
   void updateVariables();
   
   void topCollision(float xNewSpeed);
+  virtual void hasCollided();
 
  protected:
   Ogre::SceneNode* _node;  
   Ogre::Entity* _entity;
   Ball* playBall;
+  
+  Ogre::Timer collDetectDelay;
+
+  
   //Limits
   float _xMinLimit;
   float _xMaxLimit;

@@ -38,7 +38,7 @@ void Ball::update(const Ogre::FrameEvent& evt){
 void Ball::startMatch(){
 	
 	_ySpeed=-6;
-	_xSpeed= 2;
+//	_xSpeed= 2;
 	
 }
 

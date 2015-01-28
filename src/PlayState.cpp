@@ -43,6 +43,17 @@ void PlayState::enter ()
 	playBall = new Ball(_ball);
 
 
+	//Test Variables Initialization
+	ent1 = _sceneMgr->createEntity("block1", "cube.mesh");
+	Ogre::SceneNode* nodeBlock =  _sceneMgr->createSceneNode("block1");
+	nodeBlock->attachObject(ent1);
+	_sceneMgr->getRootSceneNode()->addChild(nodeBlock);
+	nodeBlock->setScale(2,1,1.2);
+	nodeBlock->setPosition(0, -15, -40);
+	
+	testBlock = new Block(nodeBlock, playBall, 2);
+	testBlock->updateVariables();
+
 	//Inicializar variables
 	_DRight = false;
 	_DLeft = false;
@@ -87,6 +98,10 @@ bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 	CollisionableObject* obj = new CollisionableObject(_paddle, playBall);
 	obj->updateVariables();
 	obj->checkCollision();
+	testBlock->updateVariables();
+	testBlock->checkCollision();
+	
+	
 	
 	//Wall Collision
 	if(_xBall > XRIGHTWALL){
