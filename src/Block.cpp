@@ -13,8 +13,8 @@ void Block::hasCollided(){
 		std::cout << "Died" << std::endl;
 		//_node->getCreator()->destroySceneNode(_node);
 		//FIXME temporary hide
-		_node->setVisible(false);
-		Ogre::Vector3 vt(300 , 300, 0);
-		_node->translate(vt);
+		//_node->setVisible(false);
+		//Ogre::Vector3 vt(300 , 300, 0);
+		//_node->translate(vt);
 	}
 }

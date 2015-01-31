@@ -27,6 +27,7 @@
 #include "GameState.h"
 #include "Ball.h"
 #include "Block.h"
+#include "BlockContainer.h"
 
 #define PLAYER 1 << 0  // Mascara para el escenario
 #define CUBE1 1 << 1  // Mascara para objetos de tipo 1
@@ -74,6 +75,7 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   Ogre::SceneNode* _ball;
   Ogre::SceneNode* _block;  // Nodo del bloque
   
+  BlockContainer* _blockMgr;
   Ball* playBall;
   
 	

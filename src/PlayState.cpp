@@ -42,17 +42,10 @@ void PlayState::enter ()
 	_ball->setPosition(0,-20,-40);
 	playBall = new Ball(_ball);
 
-
-	//Test Variables Initialization
-	ent1 = _sceneMgr->createEntity("block1", "cube.mesh");
-	Ogre::SceneNode* nodeBlock =  _sceneMgr->createSceneNode("block1");
-	nodeBlock->attachObject(ent1);
-	_sceneMgr->getRootSceneNode()->addChild(nodeBlock);
-	nodeBlock->setScale(2,1,1.2);
-	nodeBlock->setPosition(0, -15, -40);
+	//Block Manager initialization
+	_blockMgr = new BlockContainer(_sceneMgr, playBall);
+	_blockMgr->createBlock(0,-15);
 	
-	testBlock = new Block(nodeBlock, playBall, 2);
-	testBlock->updateVariables();
 
 	//Inicializar variables
 	_DRight = false;
@@ -89,8 +82,9 @@ void PlayState::resume()
 
 bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 {
-	playBall->update(evt);
+	playBall->update(evt); //Ball Movement Logic
 	updateVariables();
+	_blockMgr->checkCollision(); //All blocks colliding logic with Ball
 	
 	float _xBall = _ball->getPosition().x;
 	
@@ -98,8 +92,7 @@ bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 	CollisionableObject* obj = new CollisionableObject(_paddle, playBall);
 	obj->updateVariables();
 	obj->checkCollision();
-	testBlock->updateVariables();
-	testBlock->checkCollision();
+	
 	
 	
 	
