@@ -6,6 +6,7 @@
 
 #include "GameState.h"
 #include "Block.h"
+#include "RecordManager.h"
 
 #define PLAYER 1 << 0  // Mascara para el escenario
 #define CUBE1 1 << 1  // Mascara para objetos de tipo 1
@@ -14,7 +15,7 @@
 class BlockContainer {
 	
  public:
-  BlockContainer (Ogre::SceneManager* sceneMgr, Ball* playBall);
+  BlockContainer (Ogre::SceneManager* sceneMgr, RecordManager* recordMgr, Ball* playBall);
   
   
   void createBlock (int x, int y);
@@ -27,6 +28,7 @@ class BlockContainer {
  protected:
 
 	Ogre::SceneManager* _sceneMgr;
+	RecordManager* _recordMgr;
 	
 	std::vector<Block*>* _blocks;
 	Ball* _playBall;

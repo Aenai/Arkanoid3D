@@ -41,11 +41,15 @@ void PlayState::enter ()
 	_ball->setScale(1,1,1);
 	_ball->setPosition(0,-20,-40);
 	playBall = new Ball(_ball);
+	
+	//Record Manager
+	_recordMgr = new RecordManager();
 
 	//Block Manager initialization
-	_blockMgr = new BlockContainer(_sceneMgr, playBall);
+	_blockMgr = new BlockContainer(_sceneMgr, _recordMgr, playBall);
 	_blockMgr->createBlock(0,-15);
 	
+
 
 	//Inicializar variables
 	_DRight = false;
@@ -140,7 +144,7 @@ void PlayState::keyPressed (const OIS::KeyEvent &e)
 	}
 	
 	if(e.key == OIS::KC_X){
-	  	Ogre::Entity* boardEntity = static_cast<Ogre::Entity*>(_paddle->getAttachedObject(0));
+	  	/*Ogre::Entity* boardEntity = static_cast<Ogre::Entity*>(_paddle->getAttachedObject(0));
 	  	
 		Ogre::AxisAlignedBox charAABB = boardEntity->getWorldBoundingBox();
 		Ogre::Vector3 min = charAABB.getMinimum();
@@ -149,7 +153,9 @@ void PlayState::keyPressed (const OIS::KeyEvent &e)
 		Ogre::Vector3 size( fabs( max.x - min.x), fabs( max.y - min.y), fabs( max.z - min.z ) );
 		std::cout << size[0] << " " << size[1] << " "<< size[2] <<std::endl;
 		
-		playBall->bottomCollision();
+		playBall->bottomCollision();*/
+		_recordMgr->keepRecord(_recordMgr->getPoints());
+		_recordMgr->getRecords();
 	  }
 }
 
