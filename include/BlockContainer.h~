@@ -18,7 +18,7 @@ class BlockContainer {
   BlockContainer (Ogre::SceneManager* sceneMgr, RecordManager* recordMgr, Ball* playBall);
   
   
-  void createBlock (int x, int y, int hard);
+  void createBlock (int x, int y);
   void startMatch ();
   void checkCollision();
   

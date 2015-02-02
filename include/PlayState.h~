@@ -65,7 +65,6 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
 
   // Funciones propias
   void paddleMove ();
-  void levelGenerator ();
 
  protected:
   Ogre::Root* _root;
