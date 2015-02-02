@@ -3,7 +3,7 @@
 #include "CollisionableObject.h"
 #include <math.h> /*fabs*/
 #include <SDL/SDL.h>
-//#include <SDL/SDL_mixer.h>
+#include <SDL/SDL_mixer.h>
 
 using namespace Ogre;
 
