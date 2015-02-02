@@ -15,7 +15,7 @@ CXXFLAGS := `pkg-config --cflags OGRE` -I$(DIRHEA) -Wall
 
 # Flags del linker ---------------------------------------------------
 LDFLAGS := `pkg-config --libs-only-L OGRE`
-LDLIBS := `pkg-config --libs-only-l OGRE` -lOIS -lstdc++ -lboost_system
+LDLIBS := `pkg-config --libs-only-l OGRE` -lOIS -lstdc++ -lSDL -lSDL_mixer -lboost_system
 
 # Modo de compilación (-mode=release -mode=debug) --------------------
 ifeq ($(mode), release) 

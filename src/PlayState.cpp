@@ -2,6 +2,8 @@
 #include "PauseState.h"
 #include "CollisionableObject.h"
 #include <math.h> /*fabs*/
+#include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
 
 using namespace Ogre;
 
@@ -9,6 +11,7 @@ template<> PlayState* Ogre::Singleton<PlayState>::msSingleton = 0;
 
 void PlayState::enter ()
 {
+	initSDL ();
 	_root = Ogre::Root::getSingletonPtr();
 
 	// Se recupera el gestor de escena y la cámara.
@@ -49,6 +52,14 @@ void PlayState::enter ()
 	_blockMgr = new BlockContainer(_sceneMgr, _recordMgr, playBall);
 	_blockMgr->createBlock(0,-15);
 	
+	//Sound Managers
+	_pTrackManager = new TrackManager;
+  	_pSoundFXManager = new SoundFXManager;
+  	(_pTrackManager->load("lightintro.ogg"))->play();
+
+  	//_mainTrack->play();
+  	
+	
 
 
 	//Inicializar variables
@@ -59,7 +70,7 @@ void PlayState::enter ()
 	_yMinBall = 100;
 	updateVariables();
 	playBall->startMatch(); //FIXME temporary call method
-	
+
 	_exitGame = false;
 }
 
@@ -92,6 +103,8 @@ bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 	
 	float _xBall = _ball->getPosition().x;
 	
+
+	
 	//FIXME temporary until class PADDLE is finished
 	CollisionableObject* obj = new CollisionableObject(_paddle, playBall);
 	obj->updateVariables();
@@ -102,13 +115,16 @@ bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 	
 	//Wall Collision
 	if(_xBall > XRIGHTWALL){
+		(_pSoundFXManager->load("all.wav"))->play();
 		playBall->rightCollisionWall();
 	}else if (_xBall < XLEFTWALL){
+		(_pSoundFXManager->load("all.wav"))->play();
 		playBall->leftCollisionWall();
 	}
 	
 	//Top Collision
 	if(_yMaxBall > TOP){
+		(_pSoundFXManager->load("all.wav"))->play();
 		playBall->topCollision();
 	}
 	
@@ -253,6 +269,23 @@ void PlayState::updateVariables(){
 
 bool PlayState::checkInRange(float participant, float center, float range){
 	return (participant > center - range && participant < center + range);
+}
+
+bool PlayState::initSDL () {
+    // Inicializando SDL...
+    if (SDL_Init(SDL_INIT_AUDIO) < 0)
+        return false;
+    // Llamar a  SDL_Quit al terminar.
+    atexit(SDL_Quit);
+ 
+    // Inicializando SDL mixer...
+    if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT,MIX_DEFAULT_CHANNELS, 4096) < 0)
+      return false;
+ 
+    // Llamar a Mix_CloseAudio al terminar.
+    atexit(Mix_CloseAudio);
+ 
+    return true;    
 }
 
 

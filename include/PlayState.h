@@ -29,6 +29,8 @@
 #include "Block.h"
 #include "BlockContainer.h"
 #include "RecordManager.h"
+#include "TrackManager.h"
+#include "SoundFXManager.h"
 
 #define PLAYER 1 << 0  // Mascara para el escenario
 #define CUBE1 1 << 1  // Mascara para objetos de tipo 1
@@ -58,6 +60,8 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
 
   bool frameStarted (const Ogre::FrameEvent& evt);
   bool frameEnded (const Ogre::FrameEvent& evt);
+  
+  
 
   // Heredados de Ogre::Singleton.
   static PlayState& getSingleton ();
@@ -71,7 +75,14 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   Ogre::SceneManager* _sceneMgr;
   Ogre::Viewport* _viewport;
   Ogre::Camera* _camera;
-
+  
+  // Manejadores del sonido.
+  TrackManager* _pTrackManager;
+  SoundFXManager* _pSoundFXManager;
+  TrackPtr _mainTrack;
+  SoundFXPtr _simpleEffect;
+  bool initSDL ();
+  
   Ogre::SceneNode* _paddle; // Nodo de la pala
   Ogre::SceneNode* _ball;
   Ogre::SceneNode* _block;  // Nodo del bloque
@@ -79,6 +90,8 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   RecordManager* _recordMgr;
   BlockContainer* _blockMgr;
   Ball* playBall;
+  
+  
   
 	
   bool _DRight;
