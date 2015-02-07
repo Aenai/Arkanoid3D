@@ -20,7 +20,7 @@ void BlockContainer::createBlock (int x, int y, int hard){
 	_numBlock += 1;
 	
 	//Generating Block
-	Ogre::Entity* ent1 = _sceneMgr->createEntity(r_string.str(), "cube.mesh");
+	Ogre::Entity* ent1 = _sceneMgr->createEntity(r_string.str(), "blockMesh.mesh");
 	Ogre::SceneNode* nodeBlock =  _sceneMgr->createSceneNode(r_string.str());
 	nodeBlock->attachObject(ent1);
 	_sceneMgr->getRootSceneNode()->addChild(nodeBlock);

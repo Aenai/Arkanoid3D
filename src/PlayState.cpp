@@ -28,7 +28,7 @@ void PlayState::enter ()
 	_viewport->setBackgroundColour(Ogre::ColourValue(0.0, 0.0, 1.0));
 
 	//Paddle Initialization
-	Ogre::Entity* ent1 = _sceneMgr->createEntity("playerPaddle", "cube.mesh");
+	Ogre::Entity* ent1 = _sceneMgr->createEntity("playerPaddle", "block.mesh");
 	ent1->setQueryFlags(PLAYER);
 	_paddle = _sceneMgr->createSceneNode("playerPaddle");
 	_paddle->attachObject(ent1);
@@ -267,15 +267,16 @@ void PlayState::updateVariables(){
 void PlayState::levelGenerator (){
 	int posx = -18;
 	int posy = -8;
-	int valHard = 0;
+	int Hard1, Hard2, Hard3 = 0;
+	int temp = -1;
 	srand(time(NULL));
 
-	switch (rand()%3){
+	switch (rand()%6){
 	case 0:
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j<10; j++) {
-				valHard = rand()%5 + 1;	
-				_blockMgr->createBlock(posx,posy, valHard);
+				Hard1 = rand()%5 + 1;	
+				_blockMgr->createBlock(posx,posy, Hard1);
 				posx = posx + 4;
 			}
 			posx = -18;
@@ -284,27 +285,182 @@ void PlayState::levelGenerator (){
 		break;
 	case 1:
 		for (int i = 0; i < 5; i++) {
-			valHard = rand()%5 + 1;	
+			while{			
+				Hard1 = rand()%5 + 1;	
+			}do(Hard1 =! temp);
 			for (int j = 0; j<10; j++) {
-				_blockMgr->createBlock(posx,posy, valHard);
+				_blockMgr->createBlock(posx,posy, Hard1);
 				posx = posx + 4;
 			}
 			posx = -18;
 			posy = posy - 3;
+			temp = Hard1;
 		}
 		break;
 	case 2:
 		for (int i = 0; i <10; i++) {
-			valHard = rand()%5 + 1;
+			while{			
+				Hard1 = rand()%5 + 1;	
+			}do(Hard1 =! temp);
 			for (int j = 0; j<5; j++) {
-				_blockMgr->createBlock(posx,posy, valHard);
+				_blockMgr->createBlock(posx,posy, Hard1);
 				posy = posy - 3;
 			}
 			posy = -8;
 			posx = posx + 4;
+			temp =! Hard1;		
 		}
 		break;
-	
+	case 3:	
+		Hard1 = rand()%5 + 1;
+		Hard2 = rand()%5 + 1;
+		Hard3 = rand()%5 + 1;
+		//Fila 1			
+		for (int j = 0; j<10; j++) {
+			_blockMgr->createBlock(posx,posy, Hard1);
+			posx = posx + 4;
+		}
+		posx = -18;
+		posy = posy - 3;
+		//Fila 2
+		for (int j = 0; j<10; j++) {
+			_blockMgr->createBlock(posx,posy, Hard2);
+			posx = posx + 4;
+		}
+		posx = -18;
+		posy = posy - 3;
+		//Fila 3
+		for (int j = 0; j<10; j++) {
+			_blockMgr->createBlock(posx,posy, Hard3);
+			posx = posx + 4;
+		}
+		posx = -18;
+		posy = posy - 3;
+		//Fila 4	
+		for (int j = 0; j<10; j++) {
+			_blockMgr->createBlock(posx,posy, Hard2);
+			posx = posx + 4;
+		}
+		posx = -18;
+		posy = posy - 3;
+		//Fila 5	
+		for (int j = 0; j<10; j++) {
+			_blockMgr->createBlock(posx,posy, Hard1);
+			posx = posx + 4;
+		}
+		posx = -18;
+		posy = posy - 3;
+		break;
+	case 4:		
+		Hard1 = rand()%5 + 1;
+		Hard2 = rand()%5 + 1;
+		Hard3 = rand()%5 + 1;
+		//Columna 1	
+		for (int j = 0; j<5; j++) {
+			_blockMgr->createBlock(posx,posy, Hard1);
+			posy = posy - 3;
+		}
+		posy = -8;
+		posx = posx + 4;
+		//Columna 2	
+		for (int j = 0; j<5; j++) {
+			_blockMgr->createBlock(posx,posy, Hard2);
+			posy = posy - 3;
+		}
+		posy = -8;
+		posx = posx + 4;
+		//Columna 3	
+		for (int j = 0; j<5; j++) {
+			_blockMgr->createBlock(posx,posy, Har3);
+			posy = posy - 3;
+		}
+		posy = -8;
+		posx = posx + 4;
+		//Columna 4	
+		for (int j = 0; j<5; j++) {
+			_blockMgr->createBlock(posx,posy, Hard2);
+			posy = posy - 3;
+		}
+		posy = -8;
+		posx = posx + 4;
+		//Columna 5	
+		for (int j = 0; j<5; j++) {
+			_blockMgr->createBlock(posx,posy, Hard1);
+			posy = posy - 3;
+		}
+		posy = -8;
+		posx = posx + 4;
+		//Columna 6	
+		for (int j = 0; j<5; j++) {
+			_blockMgr->createBlock(posx,posy, Hard1);
+			posy = posy - 3;
+		}
+		posy = -8;
+		posx = posx + 4;
+		//Columna 7	
+		for (int j = 0; j<5; j++) {
+			_blockMgr->createBlock(posx,posy, Hard2);
+			posy = posy - 3;
+		}
+		posy = -8;
+		posx = posx + 4;
+		//Columna 8
+		for (int j = 0; j<5; j++) {
+			_blockMgr->createBlock(posx,posy, Hard3);
+			posy = posy - 3;
+		}
+		posy = -8;
+		posx = posx + 4;
+		//Columna 9	
+		for (int j = 0; j<5; j++) {
+			_blockMgr->createBlock(posx,posy, Hard2);
+			posy = posy - 3;
+		}
+		posy = -8;
+		posx = posx + 4;
+		//Columna 10	
+		for (int j = 0; j<5; j++) {
+			_blockMgr->createBlock(posx,posy, Hard1);
+			posy = posy - 3;
+		}
+		posy = -8;
+		posx = posx + 4;
+		break;
+	case 5:	
+		Hard1 = rand()%5 + 1;
+		Hard2 = rand()%5 + 1;
+		Hard3 = rand()%5 + 1;
+		for (int i = 0; i < 5; i++) {
+			
+		_blockMgr->createBlock(posx,posy, Hard1);
+		posx = posx + 4;
+		_blockMgr->createBlock(posx,posy, Hard2);
+		posx = posx + 4;
+		_blockMgr->createBlock(posx,posy, Hard3);
+		posx = posx + 4;
+		_blockMgr->createBlock(posx,posy, Hard1);
+		posx = posx + 4;
+		_blockMgr->createBlock(posx,posy, Hard2);
+		posx = posx + 4;
+		_blockMgr->createBlock(posx,posy, Hard2);
+		posx = posx + 4;
+		_blockMgr->createBlock(posx,posy, Hard1);
+		posx = posx + 4;
+		_blockMgr->createBlock(posx,posy, Hard3);
+		posx = posx + 4;
+		_blockMgr->createBlock(posx,posy, Hard2);
+		posx = posx + 4;
+		_blockMgr->createBlock(posx,posy, Hard1);
+		posx = posx + 4;
+
+		posx = -18;
+		posy = posy - 3;
+		temp = Hard1;
+		Hard1 = Hard2;
+		Hard2 = Hard3;
+		Hard3 = temp;
+		}
+		break;
 	}
 }
 
