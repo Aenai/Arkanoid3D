@@ -46,3 +46,47 @@ void BlockContainer::checkCollision(){
     	}
     }
 }
+
+void BlockContainer::levelGenerator(int level){
+	int posx = -18;
+	int posy = -8;
+	int valHard = 0;
+	srand(time(NULL));
+
+	switch (rand()%3){
+	case 0:
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j<10; j++) {
+				valHard = rand()%5 + 1;	
+				createBlock(posx,posy, valHard);
+				posx = posx + 4;
+			}
+			posx = -18;
+			posy = posy - 3;
+		}
+		break;
+	case 1:
+		for (int i = 0; i < 5; i++) {
+			valHard = rand()%5 + 1;	
+			for (int j = 0; j<10; j++) {
+				createBlock(posx,posy, valHard);
+				posx = posx + 4;
+			}
+			posx = -18;
+			posy = posy - 3;
+		}
+		break;
+	case 2:
+		for (int i = 0; i <10; i++) {
+			valHard = rand()%5 + 1;
+			for (int j = 0; j<5; j++) {
+				createBlock(posx,posy, valHard);
+				posy = posy - 3;
+			}
+			posy = -8;
+			posx = posx + 4;
+		}
+		break;
+	
+	}
+}

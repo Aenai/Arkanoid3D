@@ -21,6 +21,7 @@ class BlockContainer {
   void createBlock (int x, int y, int hard);
   void startMatch ();
   void checkCollision();
+  void levelGenerator(int level);
   
 
   

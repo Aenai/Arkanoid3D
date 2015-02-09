@@ -91,6 +91,7 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   RecordManager* _recordMgr;
   BlockContainer* _blockMgr;
   Ball* playBall;
+  Ogre::Timer _freezeTimer;
   
   
   
@@ -103,6 +104,8 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   float _yMinBall;
   float _yMaxBall;
   float _paddleHalfWidth;
+  
+  int _level;
  
   bool _exitGame;
   

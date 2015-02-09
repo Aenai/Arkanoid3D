@@ -52,7 +52,7 @@ void PlayState::enter ()
 	//Block Manager initialization
 	_blockMgr = new BlockContainer(_sceneMgr, _recordMgr, playBall);
 	//_blockMgr->createBlock(0,-15);
-	levelGenerator ();
+
 
 	
 	//Sound Managers
@@ -60,14 +60,20 @@ void PlayState::enter ()
   	_pSoundFXManager = new SoundFXManager;
   	(_pTrackManager->load("lightintro.ogg"))->play();
 
-  	//_mainTrack->play();
 
 	//Inicializar variables
 	_DRight = false;
 	_DLeft = false;
+	_level = 0;
 	
 	_yCollisionCheck = -100;
 	_yMinBall = 100;
+	
+	
+	//Level
+	levelGenerator ();
+	_freezeTimer = Ogre::Timer();
+	
 	updateVariables();
 	playBall->startMatch(); //FIXME temporary call method
 
@@ -97,35 +103,40 @@ void PlayState::resume()
 
 bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 {
-	playBall->update(evt); //Ball Movement Logic
-	updateVariables();
-	_blockMgr->checkCollision(); //All blocks colliding logic with Ball
+	if(_freezeTimer.getMilliseconds() > 1500){
+		playBall->update(evt); //Ball Movement Logic
+		updateVariables();
+		_blockMgr->checkCollision(); //All blocks colliding logic with Ball
 	
-	float _xBall = _ball->getPosition().x;
+		float _xBall = _ball->getPosition().x;
 	
-
+		//Game Over Control
+		if(playBall->getY() < -45){
+			_freezeTimer = Ogre::Timer();
+			playBall->startMatch();
+		}
 	
-	//FIXME temporary until class PADDLE is finished
-	CollisionableObject* obj = new CollisionableObject(_paddle, playBall);
-	obj->updateVariables();
-	obj->checkCollision();
+		//FIXME temporary until class PADDLE is finished
+		CollisionableObject* obj = new CollisionableObject(_paddle, playBall);
+		obj->updateVariables();
+		obj->checkCollision();
 	
-	//Wall Collision
-	if(_xBall > XRIGHTWALL){
-		(_pSoundFXManager->load("all.wav"))->play();
-		playBall->rightCollisionWall();
-	}else if (_xBall < XLEFTWALL){
-		(_pSoundFXManager->load("all.wav"))->play();
-		playBall->leftCollisionWall();
+		//Wall Collision
+		if(_xBall > XRIGHTWALL){
+			(_pSoundFXManager->load("all.wav"))->play();
+			playBall->rightCollisionWall();
+		}else if (_xBall < XLEFTWALL){
+			(_pSoundFXManager->load("all.wav"))->play();
+			playBall->leftCollisionWall();
+		}
+	
+		//Top Collision
+		if(_yMaxBall > TOP){
+			(_pSoundFXManager->load("all.wav"))->play();
+			playBall->topCollision();
+		}
+	
 	}
-	
-	//Top Collision
-	if(_yMaxBall > TOP){
-		(_pSoundFXManager->load("all.wav"))->play();
-		playBall->topCollision();
-	}
-	
-	
 	return true;
 }
 
@@ -265,47 +276,7 @@ void PlayState::updateVariables(){
 }
 
 void PlayState::levelGenerator (){
-	int posx = -18;
-	int posy = -8;
-	int valHard = 0;
-	srand(time(NULL));
-
-	switch (rand()%3){
-	case 0:
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j<10; j++) {
-				valHard = rand()%5 + 1;	
-				_blockMgr->createBlock(posx,posy, valHard);
-				posx = posx + 4;
-			}
-			posx = -18;
-			posy = posy - 3;
-		}
-		break;
-	case 1:
-		for (int i = 0; i < 5; i++) {
-			valHard = rand()%5 + 1;	
-			for (int j = 0; j<10; j++) {
-				_blockMgr->createBlock(posx,posy, valHard);
-				posx = posx + 4;
-			}
-			posx = -18;
-			posy = posy - 3;
-		}
-		break;
-	case 2:
-		for (int i = 0; i <10; i++) {
-			valHard = rand()%5 + 1;
-			for (int j = 0; j<5; j++) {
-				_blockMgr->createBlock(posx,posy, valHard);
-				posy = posy - 3;
-			}
-			posy = -8;
-			posx = posx + 4;
-		}
-		break;
-	
-	}
+	_blockMgr->levelGenerator(_level);
 }
 
 bool PlayState::checkInRange(float participant, float center, float range){
