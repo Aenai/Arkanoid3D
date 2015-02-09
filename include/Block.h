@@ -19,6 +19,7 @@ class Block : public CollisionableObject {
   Block (Ogre::SceneNode* newBlock, Ball* ball,RecordManager* recordMgr , int hard);
   
   void hasCollided();
+  bool isDead();
 
   
 

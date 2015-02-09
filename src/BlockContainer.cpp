@@ -8,6 +8,7 @@ BlockContainer::BlockContainer (Ogre::SceneManager* sceneMgr,RecordManager* reco
 	_recordMgr = recordMgr;
 	_playBall = playBall;
 	_numBlock = 0;
+	_currentBlocks = 0;
 }
 
 
@@ -18,6 +19,7 @@ void BlockContainer::createBlock (int x, int y, int hard){
 	std::ostringstream r_string;
 	r_string << "block_" << _numBlock;
 	_numBlock += 1;
+	_currentBlocks++;
 	
 	//Generating Block
 	Ogre::Entity* ent1 = _sceneMgr->createEntity(r_string.str(), "cube.mesh");
@@ -38,5 +40,9 @@ void BlockContainer::checkCollision(){
 	for (std::vector<Block*>::iterator it = _blocks->begin() ; it != _blocks->end(); ++it){
 		(*it)->updateVariables();
     	(*it)->checkCollision();
+    	if((*it)->isDead()){
+    		_blocks->erase(it);
+    		_currentBlocks--;
+    	}
     }
 }

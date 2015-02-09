@@ -21,3 +21,8 @@ void Block::hasCollided(){
 		_node->translate(vt);
 	}
 }
+
+bool Block::isDead(){
+	return _lifes <= 0;
+}
+

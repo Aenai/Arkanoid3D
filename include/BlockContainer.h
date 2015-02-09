@@ -34,6 +34,7 @@ class BlockContainer {
 	Ball* _playBall;
 	
 	int _numBlock;
+	int _currentBlocks;
   
   
 };
