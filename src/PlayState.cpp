@@ -58,14 +58,16 @@ void PlayState::enter ()
 	//Record Manager
 	_recordMgr = new RecordManager();
 
-	//Block Manager initialization
-	_blockMgr = new BlockContainer(_sceneMgr, _recordMgr, playBall, _ghostBall);
-	//_blockMgr->createBlock(0,-15);
+
+
 	
 	
 	//IA
 	_IAmgr = new IAManager(playBall, _ghostBall, _paddle);
 
+
+	//Block Manager initialization
+	_blockMgr = new BlockContainer(_sceneMgr, _recordMgr, playBall, _ghostBall, _IAmgr);
 	
 	//Sound Managers
 	_pTrackManager = new TrackManager;
@@ -120,7 +122,7 @@ bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 		_ghostBall->update(evt);
 		updateVariables();
 		_blockMgr->checkCollision(); //All blocks colliding logic with Ball
-		_IAmgr->update(evt);
+		_IAmgr->update(evt, _blockMgr->getObjectiveX());
 	
 		float _xBall = _ball->getPosition().x;
 	
@@ -136,18 +138,28 @@ bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 		obj->checkCollision();
 	
 		//Wall Collision
-		if(_xBall > XRIGHTWALL){
+		if(playBall->getX() > XRIGHTWALL){
 			(_pSoundFXManager->load("all.wav"))->play();
 			playBall->rightCollisionWall();
-		}else if (_xBall < XLEFTWALL){
+		}else if (playBall->getX() < XLEFTWALL){
 			(_pSoundFXManager->load("all.wav"))->play();
 			playBall->leftCollisionWall();
 		}
+		
+		if(_ghostBall->getX() > XRIGHTWALL){
+			_ghostBall->rightCollisionWall();
+		}else if (_ghostBall->getX() < XLEFTWALL){
+			_ghostBall->leftCollisionWall();
+		}
 	
 		//Top Collision
-		if(_yMaxBall > TOP){
+		if(playBall->getY() > TOP){
 			(_pSoundFXManager->load("all.wav"))->play();
 			playBall->topCollision();
+		}
+		
+		if(_ghostBall->getY() > TOP){
+			_ghostBall->topCollision();
 		}
 	
 	}

@@ -23,6 +23,10 @@ class CollisionableObject{
   
   void topCollision(float xNewSpeed, Ball* ball);
   virtual void hasCollided();
+  
+  //Getters
+  const Ogre::Vector3& getPosition();
+  Ogre::SceneNode* getNode();
 
  protected:
   Ogre::SceneNode* _node;  

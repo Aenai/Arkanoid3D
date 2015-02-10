@@ -17,8 +17,10 @@ class IAManager {
  public:
 	IAManager (Ball* newBall, GhostBall* ghostBall, Ogre::SceneNode* paddle);
 	
-	void update(const Ogre::FrameEvent& evt);
+	void update(const Ogre::FrameEvent& evt, Ogre::SceneNode* blockObjective);
 	void keyReleased (const OIS::KeyEvent &e);
+	void setBlockObjective(Ogre::SceneNode* node);
+	float getPredicted();
 
 
   
@@ -26,8 +28,14 @@ class IAManager {
   	Ball* _playBall;
   	GhostBall* _ghostBall;
   	Ogre::SceneNode* _paddle;
-  	bool _controlSpeed;
   	
+  	//Prediction Variables
+  	float _predicted; //Where the ball is going to stop
+  	float _maxY; //Max Y for the paddle
+  	float _xObjective; //Block Objective
+  	float _yObjective; //Block Objective
+  	
+  	bool _controlSpeed;
   	bool activated;
   	
   

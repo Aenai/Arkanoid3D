@@ -116,6 +116,12 @@ bool collCheck(float checking, float toHit, float errorRange){
 	return (checking <= toHit && fabs(checking - toHit) < errorRange && toHit != 1);
 }
 
+const Ogre::Vector3& CollisionableObject::getPosition(){
+	return _node->getPosition();
+}
 
+Ogre::SceneNode* CollisionableObject::getNode(){
+	return _node;
+}
 
 

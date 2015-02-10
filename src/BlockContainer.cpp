@@ -2,11 +2,12 @@
 
 
 
-BlockContainer::BlockContainer (Ogre::SceneManager* sceneMgr,RecordManager* recordMgr, Ball* playBall, GhostBall* ghostBall){
+BlockContainer::BlockContainer (Ogre::SceneManager* sceneMgr,RecordManager* recordMgr, Ball* playBall, GhostBall* ghostBall, IAManager* iaMgr){
 	_sceneMgr = sceneMgr;
 	_blocks = new std::vector<Block*>();
 	_recordMgr = recordMgr;
 	_playBall = playBall;
+	_IAMgr = iaMgr;
 	_ghostBall = ghostBall;
 	_numBlock = 0;
 	_currentBlocks = 0;
@@ -90,4 +91,21 @@ void BlockContainer::levelGenerator(int level){
 		break;
 	
 	}
+}
+
+Ogre::SceneNode* BlockContainer::getObjectiveX(){
+	
+	float minY=999;
+	float minX=999;
+	Ogre::SceneNode* block;
+	
+	for (std::vector<Block*>::iterator it = _blocks->begin() ; it != _blocks->end(); ++it){
+		float aux = fabs((*it)->getPosition().x - _IAMgr->getPredicted());
+		if((*it)->getPosition().y <= minY && aux < minX){
+			minY=(*it)->getPosition().y;
+			minX=aux;
+			block =  (*it)->getNode();
+		}
+    }
+    return block;
 }
