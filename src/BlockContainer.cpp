@@ -2,11 +2,12 @@
 
 
 
-BlockContainer::BlockContainer (Ogre::SceneManager* sceneMgr,RecordManager* recordMgr, Ball* playBall){
+BlockContainer::BlockContainer (Ogre::SceneManager* sceneMgr,RecordManager* recordMgr, Ball* playBall, GhostBall* ghostBall){
 	_sceneMgr = sceneMgr;
 	_blocks = new std::vector<Block*>();
 	_recordMgr = recordMgr;
 	_playBall = playBall;
+	_ghostBall = ghostBall;
 	_numBlock = 0;
 	_currentBlocks = 0;
 }
@@ -30,7 +31,7 @@ void BlockContainer::createBlock (int x, int y, int hard){
 	nodeBlock->setPosition(x, y, -40);
 	
 	//Block vector Logic
-	Block* newBlock = new Block(nodeBlock, _playBall, _recordMgr, hard);
+	Block* newBlock = new Block(nodeBlock, _playBall, _ghostBall, _recordMgr, hard);
 	_blocks->push_back(newBlock);
 	
 }

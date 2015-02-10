@@ -4,9 +4,10 @@
 
 
 
-CollisionableObject::CollisionableObject (Ogre::SceneNode* node, Ball* ball){
+CollisionableObject::CollisionableObject (Ogre::SceneNode* node, Ball* ball, GhostBall* ghostBall){
 	
 	playBall = ball;
+	_ghostBall = ghostBall;
 	_node = node;
 	_entity = static_cast<Ogre::Entity*>(_node->getAttachedObject(0));
 	collDetectDelay = Ogre::Timer();
@@ -30,64 +31,72 @@ void CollisionableObject::updateVariables(){
 
 
 void CollisionableObject::checkCollision(){
+	checkCollision(playBall);
+	checkCollision(_ghostBall);
+}
+
+void CollisionableObject::checkCollision(Ball* ball){
 	
-	float xBall = playBall->getX();
-	float yBall = playBall->getY();
+	float xBall = ball->getX();
+	float yBall = ball->getY();
 	float error = 0.5;
 	bool collided = false;
 	
 	//Top Collision
-	if(collCheck(playBall->getMinY(), _yMaxLimit, error)){
+	if(collCheck(ball->getMinY(), _yMaxLimit, error)){
 
 		float _xPaddle = _node->getPosition().x;
 		
-		if(inRange(playBall->getMinX(),playBall->getMaxX(), _xMinLimit,_xMaxLimit)){
-			topCollision((xBall - _xPaddle) * 2);
+		if(inRange(ball->getMinX(),ball->getMaxX(), _xMinLimit,_xMaxLimit)){
+			topCollision((xBall - _xPaddle) * 2, ball);
 			collided = true;
 			std::cout << collDetectDelay.getMilliseconds() << std::endl;
 		}
 	}
 	
 	//Bottom Collision
-	if(collCheck(playBall->getMaxY(), _yMinLimit, error)){
+	if(collCheck(ball->getMaxY(), _yMinLimit, error)){
 
 		float _xPaddle = _node->getPosition().x;
 		
-		if(inRange(playBall->getMinX(),playBall->getMaxX(), _xMinLimit,_xMaxLimit)){
-			playBall->topCollision();
+		if(inRange(ball->getMinX(),ball->getMaxX(), _xMinLimit,_xMaxLimit)){
+			ball->topCollision();
 			collided = true;
 		}
 	}
 	
 	//Right Collision
-	if(collCheck(playBall->getMinX(),_xMaxLimit, error)){
+	if(collCheck(ball->getMinX(),_xMaxLimit, error)){
 		
-		if(inRange(playBall->getMinY(),playBall->getMaxY(), _yMinLimit,_yMaxLimit)){
-			playBall->leftCollisionWall();
+		if(inRange(ball->getMinY(),ball->getMaxY(), _yMinLimit,_yMaxLimit)){
+			ball->leftCollisionWall();
 			collided = true;
 		}
 	}
 	
 	//Left Collision
-	if(collCheck(playBall->getMaxX(),_xMinLimit, error)){
+	if(collCheck(ball->getMaxX(),_xMinLimit, error)){
 		
-		if(inRange(playBall->getMinY(),playBall->getMaxY(), _yMinLimit,_yMaxLimit)){
-			playBall->rightCollisionWall();
+		if(inRange(ball->getMinY(),ball->getMaxY(), _yMinLimit,_yMaxLimit)){
+			ball->rightCollisionWall();
 			collided = true;
 		}
 	}
 	
 	if(collided && collDetectDelay.getMilliseconds() > 100){
 		collDetectDelay = Ogre::Timer();
-		hasCollided();
+		if(!ball->getGhost())
+			hasCollided();
 	}
 	
 	
 	
 }
 
-void CollisionableObject::topCollision(float xNewSpeed){
-	playBall->collisionPaddle(xNewSpeed);
+void CollisionableObject::topCollision(float xNewSpeed, Ball* ball){
+//	if(!(_node->getName().compare("playerPaddle") && ball->getGhost())){
+		ball->collisionPaddle(xNewSpeed);
+//	}
 }
 
 void CollisionableObject::hasCollided(){

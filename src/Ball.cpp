@@ -2,6 +2,20 @@
 #include "Ball.h"
 
 
+Ball::Ball (Ogre::SceneNode* newBall, bool ghost){
+	
+	_ball = newBall;
+	_xSpeed = 0;
+  	_ySpeed = 0;
+  	
+	_bXMinLimit = 0;
+	_bXMaxLimit = 0;
+	_bYMinLimit = 0;
+	_bYMaxLimit = 0;
+	
+	_isGhost=ghost;
+}
+
 Ball::Ball (Ogre::SceneNode* newBall){
 	
 	_ball = newBall;
@@ -12,6 +26,10 @@ Ball::Ball (Ogre::SceneNode* newBall){
 	_bXMaxLimit = 0;
 	_bYMinLimit = 0;
 	_bYMaxLimit = 0;
+	
+	
+	
+	_isGhost=false;
 }
 
 void Ball::update(const Ogre::FrameEvent& evt){
@@ -102,6 +120,32 @@ float Ball::getMaxX(){
 float Ball::getMaxY(){
 	return _bYMaxLimit;
 }
+
+bool Ball::getGhost(){
+	return _isGhost;
+}
+
+float Ball::getXSpeed(){
+	return _xSpeed;
+}
+
+float Ball::getYSpeed(){
+	return _ySpeed;
+}
+
+void Ball::setSpeed(float x, float y){
+	_xSpeed = x;
+	_ySpeed = y;
+}
+
+void Ball::setPosition(const Ogre::Vector3& pos){
+	_ball->setPosition(pos);
+}
+
+const Ogre::Vector3& Ball::getPosition(){
+	return _ball->getPosition();
+}
+
 
 
 

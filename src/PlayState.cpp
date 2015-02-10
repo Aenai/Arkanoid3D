@@ -46,13 +46,25 @@ void PlayState::enter ()
 	_ball->setPosition(0,-26,-40);
 	playBall = new Ball(_ball);
 	
+	//GhostBall initialization
+	ent1 = _sceneMgr->createEntity("ballG", "Cube.001.mesh");
+	_ball = _sceneMgr->createSceneNode("ballG");
+	_ball->attachObject(ent1);
+	_sceneMgr->getRootSceneNode()->addChild(_ball);
+	_ball->setScale(1,1,1);
+	_ball->setPosition(0,-26,-40);
+	_ghostBall = new GhostBall(_ball);
+	
 	//Record Manager
 	_recordMgr = new RecordManager();
 
 	//Block Manager initialization
-	_blockMgr = new BlockContainer(_sceneMgr, _recordMgr, playBall);
+	_blockMgr = new BlockContainer(_sceneMgr, _recordMgr, playBall, _ghostBall);
 	//_blockMgr->createBlock(0,-15);
-
+	
+	
+	//IA
+	_IAmgr = new IAManager(playBall, _ghostBall, _paddle);
 
 	
 	//Sound Managers
@@ -105,8 +117,10 @@ bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 {
 	if(_freezeTimer.getMilliseconds() > 1500){
 		playBall->update(evt); //Ball Movement Logic
+		_ghostBall->update(evt);
 		updateVariables();
 		_blockMgr->checkCollision(); //All blocks colliding logic with Ball
+		_IAmgr->update(evt);
 	
 		float _xBall = _ball->getPosition().x;
 	
@@ -117,7 +131,7 @@ bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 		}
 	
 		//FIXME temporary until class PADDLE is finished
-		CollisionableObject* obj = new CollisionableObject(_paddle, playBall);
+		CollisionableObject* obj = new CollisionableObject(_paddle, playBall, _ghostBall);
 		obj->updateVariables();
 		obj->checkCollision();
 	
