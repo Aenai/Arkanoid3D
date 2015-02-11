@@ -14,6 +14,7 @@
 class Ball {
 	
  public:
+  Ball (Ogre::SceneNode* newBall, bool ghost);
   Ball (Ogre::SceneNode* newBall);
   
   //Game Logic
@@ -29,15 +30,26 @@ class Ball {
   
   //Getters
   Ogre::Entity* getEntity();
+  float getXSpeed();
+  float getYSpeed();
   float getX();
   float getY();
   float getMinX();
   float getMinY();
   float getMaxX();
   float getMaxY();
+const  Ogre::Vector3& getPosition();
+  bool getGhost();
+  
+  //Setters
+  void setSpeed(float x, float y);
+  void setPosition(const Ogre::Vector3& pos);
 
  protected:
-  Ogre::SceneNode* _ball;   	
+  Ogre::SceneNode* _ball;   
+  
+  //Ghost for IA Purpouse
+  bool _isGhost;	
  	
   //Speed
   float _xSpeed;

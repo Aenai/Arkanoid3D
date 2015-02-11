@@ -28,7 +28,7 @@ void PlayState::enter ()
 	_viewport->setBackgroundColour(Ogre::ColourValue(0.0, 0.0, 1.0));
 
 	//Paddle Initialization
-	Ogre::Entity* ent1 = _sceneMgr->createEntity("playerPaddle", "block.mesh");
+	Ogre::Entity* ent1 = _sceneMgr->createEntity("playerPaddle", "cube.mesh");
 	ent1->setQueryFlags(PLAYER);
 	_paddle = _sceneMgr->createSceneNode("playerPaddle");
 	_paddle->attachObject(ent1);
@@ -46,28 +46,48 @@ void PlayState::enter ()
 	_ball->setPosition(0,-26,-40);
 	playBall = new Ball(_ball);
 	
+	//GhostBall initialization
+	ent1 = _sceneMgr->createEntity("ballG", "Cube.001.mesh");
+	_ball = _sceneMgr->createSceneNode("ballG");
+	_ball->attachObject(ent1);
+	_sceneMgr->getRootSceneNode()->addChild(_ball);
+	_ball->setScale(1,1,1);
+	_ball->setPosition(0,-26,-40);
+	_ghostBall = new GhostBall(_ball);
+	
 	//Record Manager
 	_recordMgr = new RecordManager();
 
-	//Block Manager initialization
-	_blockMgr = new BlockContainer(_sceneMgr, _recordMgr, playBall);
-	//_blockMgr->createBlock(0,-15);
-	levelGenerator ();
 
+
+	
+	
+	//IA
+	_IAmgr = new IAManager(playBall, _ghostBall, _paddle);
+
+
+	//Block Manager initialization
+	_blockMgr = new BlockContainer(_sceneMgr, _recordMgr, playBall, _ghostBall, _IAmgr);
 	
 	//Sound Managers
 	_pTrackManager = new TrackManager;
   	_pSoundFXManager = new SoundFXManager;
   	(_pTrackManager->load("lightintro.ogg"))->play();
 
-  	//_mainTrack->play();
 
 	//Inicializar variables
 	_DRight = false;
 	_DLeft = false;
+	_level = 0;
 	
 	_yCollisionCheck = -100;
 	_yMinBall = 100;
+	
+	
+	//Level
+	levelGenerator ();
+	_freezeTimer = Ogre::Timer();
+	
 	updateVariables();
 	playBall->startMatch(); //FIXME temporary call method
 
@@ -97,35 +117,52 @@ void PlayState::resume()
 
 bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 {
-	playBall->update(evt); //Ball Movement Logic
-	updateVariables();
-	_blockMgr->checkCollision(); //All blocks colliding logic with Ball
+	if(_freezeTimer.getMilliseconds() > 1500){
+		playBall->update(evt); //Ball Movement Logic
+		_ghostBall->update(evt);
+		updateVariables();
+		_blockMgr->checkCollision(); //All blocks colliding logic with Ball
+		_IAmgr->update(evt, _blockMgr->getObjectiveX());
 	
-	float _xBall = _ball->getPosition().x;
+		float _xBall = _ball->getPosition().x;
 	
-
+		//Game Over Control
+		if(playBall->getY() < -45){
+			_freezeTimer = Ogre::Timer();
+			playBall->startMatch();
+		}
 	
-	//FIXME temporary until class PADDLE is finished
-	CollisionableObject* obj = new CollisionableObject(_paddle, playBall);
-	obj->updateVariables();
-	obj->checkCollision();
+		//FIXME temporary until class PADDLE is finished
+		CollisionableObject* obj = new CollisionableObject(_paddle, playBall, _ghostBall);
+		obj->updateVariables();
+		obj->checkCollision();
 	
-	//Wall Collision
-	if(_xBall > XRIGHTWALL){
-		(_pSoundFXManager->load("all.wav"))->play();
-		playBall->rightCollisionWall();
-	}else if (_xBall < XLEFTWALL){
-		(_pSoundFXManager->load("all.wav"))->play();
-		playBall->leftCollisionWall();
+		//Wall Collision
+		if(playBall->getX() > XRIGHTWALL){
+			(_pSoundFXManager->load("all.wav"))->play();
+			playBall->rightCollisionWall();
+		}else if (playBall->getX() < XLEFTWALL){
+			(_pSoundFXManager->load("all.wav"))->play();
+			playBall->leftCollisionWall();
+		}
+		
+		if(_ghostBall->getX() > XRIGHTWALL){
+			_ghostBall->rightCollisionWall();
+		}else if (_ghostBall->getX() < XLEFTWALL){
+			_ghostBall->leftCollisionWall();
+		}
+	
+		//Top Collision
+		if(playBall->getY() > TOP){
+			(_pSoundFXManager->load("all.wav"))->play();
+			playBall->topCollision();
+		}
+		
+		if(_ghostBall->getY() > TOP){
+			_ghostBall->topCollision();
+		}
+	
 	}
-	
-	//Top Collision
-	if(_yMaxBall > TOP){
-		(_pSoundFXManager->load("all.wav"))->play();
-		playBall->topCollision();
-	}
-	
-	
 	return true;
 }
 
@@ -264,204 +301,8 @@ void PlayState::updateVariables(){
 	//std::cout << "_yColl: " << _yCollisionCheck << " _yMin: " << _yMinBall << std::endl;
 }
 
-void PlayState::levelGenerator (){
-	int posx = -18;
-	int posy = -8;
-	int Hard1, Hard2, Hard3 = 0;
-	int temp = -1;
-	srand(time(NULL));
-
-	switch (rand()%6){
-	case 0:
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j<10; j++) {
-				Hard1 = rand()%5 + 1;	
-				_blockMgr->createBlock(posx,posy, Hard1);
-				posx = posx + 4;
-			}
-			posx = -18;
-			posy = posy - 3;
-		}
-		break;
-	case 1:
-		for (int i = 0; i < 5; i++) {
-			while{			
-				Hard1 = rand()%5 + 1;	
-			}do(Hard1 =! temp);
-			for (int j = 0; j<10; j++) {
-				_blockMgr->createBlock(posx,posy, Hard1);
-				posx = posx + 4;
-			}
-			posx = -18;
-			posy = posy - 3;
-			temp = Hard1;
-		}
-		break;
-	case 2:
-		for (int i = 0; i <10; i++) {
-			while{			
-				Hard1 = rand()%5 + 1;	
-			}do(Hard1 =! temp);
-			for (int j = 0; j<5; j++) {
-				_blockMgr->createBlock(posx,posy, Hard1);
-				posy = posy - 3;
-			}
-			posy = -8;
-			posx = posx + 4;
-			temp =! Hard1;		
-		}
-		break;
-	case 3:	
-		Hard1 = rand()%5 + 1;
-		Hard2 = rand()%5 + 1;
-		Hard3 = rand()%5 + 1;
-		//Fila 1			
-		for (int j = 0; j<10; j++) {
-			_blockMgr->createBlock(posx,posy, Hard1);
-			posx = posx + 4;
-		}
-		posx = -18;
-		posy = posy - 3;
-		//Fila 2
-		for (int j = 0; j<10; j++) {
-			_blockMgr->createBlock(posx,posy, Hard2);
-			posx = posx + 4;
-		}
-		posx = -18;
-		posy = posy - 3;
-		//Fila 3
-		for (int j = 0; j<10; j++) {
-			_blockMgr->createBlock(posx,posy, Hard3);
-			posx = posx + 4;
-		}
-		posx = -18;
-		posy = posy - 3;
-		//Fila 4	
-		for (int j = 0; j<10; j++) {
-			_blockMgr->createBlock(posx,posy, Hard2);
-			posx = posx + 4;
-		}
-		posx = -18;
-		posy = posy - 3;
-		//Fila 5	
-		for (int j = 0; j<10; j++) {
-			_blockMgr->createBlock(posx,posy, Hard1);
-			posx = posx + 4;
-		}
-		posx = -18;
-		posy = posy - 3;
-		break;
-	case 4:		
-		Hard1 = rand()%5 + 1;
-		Hard2 = rand()%5 + 1;
-		Hard3 = rand()%5 + 1;
-		//Columna 1	
-		for (int j = 0; j<5; j++) {
-			_blockMgr->createBlock(posx,posy, Hard1);
-			posy = posy - 3;
-		}
-		posy = -8;
-		posx = posx + 4;
-		//Columna 2	
-		for (int j = 0; j<5; j++) {
-			_blockMgr->createBlock(posx,posy, Hard2);
-			posy = posy - 3;
-		}
-		posy = -8;
-		posx = posx + 4;
-		//Columna 3	
-		for (int j = 0; j<5; j++) {
-			_blockMgr->createBlock(posx,posy, Har3);
-			posy = posy - 3;
-		}
-		posy = -8;
-		posx = posx + 4;
-		//Columna 4	
-		for (int j = 0; j<5; j++) {
-			_blockMgr->createBlock(posx,posy, Hard2);
-			posy = posy - 3;
-		}
-		posy = -8;
-		posx = posx + 4;
-		//Columna 5	
-		for (int j = 0; j<5; j++) {
-			_blockMgr->createBlock(posx,posy, Hard1);
-			posy = posy - 3;
-		}
-		posy = -8;
-		posx = posx + 4;
-		//Columna 6	
-		for (int j = 0; j<5; j++) {
-			_blockMgr->createBlock(posx,posy, Hard1);
-			posy = posy - 3;
-		}
-		posy = -8;
-		posx = posx + 4;
-		//Columna 7	
-		for (int j = 0; j<5; j++) {
-			_blockMgr->createBlock(posx,posy, Hard2);
-			posy = posy - 3;
-		}
-		posy = -8;
-		posx = posx + 4;
-		//Columna 8
-		for (int j = 0; j<5; j++) {
-			_blockMgr->createBlock(posx,posy, Hard3);
-			posy = posy - 3;
-		}
-		posy = -8;
-		posx = posx + 4;
-		//Columna 9	
-		for (int j = 0; j<5; j++) {
-			_blockMgr->createBlock(posx,posy, Hard2);
-			posy = posy - 3;
-		}
-		posy = -8;
-		posx = posx + 4;
-		//Columna 10	
-		for (int j = 0; j<5; j++) {
-			_blockMgr->createBlock(posx,posy, Hard1);
-			posy = posy - 3;
-		}
-		posy = -8;
-		posx = posx + 4;
-		break;
-	case 5:	
-		Hard1 = rand()%5 + 1;
-		Hard2 = rand()%5 + 1;
-		Hard3 = rand()%5 + 1;
-		for (int i = 0; i < 5; i++) {
-			
-		_blockMgr->createBlock(posx,posy, Hard1);
-		posx = posx + 4;
-		_blockMgr->createBlock(posx,posy, Hard2);
-		posx = posx + 4;
-		_blockMgr->createBlock(posx,posy, Hard3);
-		posx = posx + 4;
-		_blockMgr->createBlock(posx,posy, Hard1);
-		posx = posx + 4;
-		_blockMgr->createBlock(posx,posy, Hard2);
-		posx = posx + 4;
-		_blockMgr->createBlock(posx,posy, Hard2);
-		posx = posx + 4;
-		_blockMgr->createBlock(posx,posy, Hard1);
-		posx = posx + 4;
-		_blockMgr->createBlock(posx,posy, Hard3);
-		posx = posx + 4;
-		_blockMgr->createBlock(posx,posy, Hard2);
-		posx = posx + 4;
-		_blockMgr->createBlock(posx,posy, Hard1);
-		posx = posx + 4;
-
-		posx = -18;
-		posy = posy - 3;
-		temp = Hard1;
-		Hard1 = Hard2;
-		Hard2 = Hard3;
-		Hard3 = temp;
-		}
-		break;
-	}
+void PlayState::levelGenerator () {
+	_blockMgr->levelGenerator(_level);
 }
 
 bool PlayState::checkInRange(float participant, float center, float range){

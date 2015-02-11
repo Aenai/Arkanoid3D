@@ -2,12 +2,15 @@
 
 
 
-BlockContainer::BlockContainer (Ogre::SceneManager* sceneMgr,RecordManager* recordMgr, Ball* playBall){
+BlockContainer::BlockContainer (Ogre::SceneManager* sceneMgr,RecordManager* recordMgr, Ball* playBall, GhostBall* ghostBall, IAManager* iaMgr){
 	_sceneMgr = sceneMgr;
 	_blocks = new std::vector<Block*>();
 	_recordMgr = recordMgr;
 	_playBall = playBall;
+	_IAMgr = iaMgr;
+	_ghostBall = ghostBall;
 	_numBlock = 0;
+	_currentBlocks = 0;
 }
 
 
@@ -18,9 +21,10 @@ void BlockContainer::createBlock (int x, int y, int hard){
 	std::ostringstream r_string;
 	r_string << "block_" << _numBlock;
 	_numBlock += 1;
+	_currentBlocks++;
 	
 	//Generating Block
-	Ogre::Entity* ent1 = _sceneMgr->createEntity(r_string.str(), "block.mesh");
+	Ogre::Entity* ent1 = _sceneMgr->createEntity(r_string.str(), "BlockMesh.mesh");
 	Ogre::SceneNode* nodeBlock =  _sceneMgr->createSceneNode(r_string.str());
 	nodeBlock->attachObject(ent1);
 	_sceneMgr->getRootSceneNode()->addChild(nodeBlock);
@@ -28,7 +32,7 @@ void BlockContainer::createBlock (int x, int y, int hard){
 	nodeBlock->setPosition(x, y, -40);
 	
 	//Block vector Logic
-	Block* newBlock = new Block(nodeBlock, _playBall, _recordMgr, hard);
+	Block* newBlock = new Block(nodeBlock, _playBall, _ghostBall, _recordMgr, hard);
 	_blocks->push_back(newBlock);
 	
 }
@@ -38,5 +42,213 @@ void BlockContainer::checkCollision(){
 	for (std::vector<Block*>::iterator it = _blocks->begin() ; it != _blocks->end(); ++it){
 		(*it)->updateVariables();
     	(*it)->checkCollision();
+    	if((*it)->isDead()){
+    		_blocks->erase(it);
+    		_currentBlocks--;
+    	}
     }
+}
+
+void BlockContainer::levelGenerator(int level){
+	int posx = -18;
+	int posy = -8;
+	int Hard1, Hard2, Hard3 = 0;
+	int temp = -1;
+	srand(time(NULL));
+
+	switch (rand()%7){
+	case 0:
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j<10; j++) {
+				Hard1 = rand()%5 + 1;	
+				createBlock(posx,posy, Hard1);
+				posx = posx + 4;
+			}
+			posx = -18;
+			posy = posy - 3;
+		}
+		break;
+	case 1:
+		for (int i = 0; i < 5; i++) {
+			do {			
+				Hard1 = rand()%5 + 1;	
+			} while (Hard1 =! temp);
+			for (int j = 0; j<10; j++) {
+				createBlock(posx,posy, Hard1);
+				posx = posx + 4;
+			}
+			posx = -18;
+			posy = posy - 3;
+			temp = Hard1;
+		}
+		break;
+	case 2:
+		for (int i = 0; i <10; i++) {
+			do{			
+				Hard1 = rand()%5 + 1;	
+			}while(Hard1 =! temp);
+			for (int j = 0; j<5; j++) {
+				createBlock(posx,posy, Hard1);
+				posy = posy - 3;
+			}
+			posy = -8;
+			posx = posx + 4;
+			temp =! Hard1;		
+		}
+		break;
+	case 3:	
+		Hard1 = rand()%5 + 1;
+		Hard2 = rand()%5 + 1;
+		Hard3 = rand()%5 + 1;
+		//Fila 1			
+		for (int j = 0; j<10; j++) {
+			createBlock(posx,posy, Hard1);
+			posx = posx + 4;
+		}
+		posx = -18;
+		posy = posy - 3;
+		//Fila 2
+		for (int j = 0; j<10; j++) {
+			createBlock(posx,posy, Hard2);
+			posx = posx + 4;
+		}
+		posx = -18;
+		posy = posy - 3;
+		//Fila 3
+		for (int j = 0; j<10; j++) {
+			createBlock(posx,posy, Hard3);
+			posx = posx + 4;
+		}
+		posx = -18;
+		posy = posy - 3;
+		//Fila 4	
+		for (int j = 0; j<10; j++) {
+			createBlock(posx,posy, Hard2);
+			posx = posx + 4;
+		}
+		posx = -18;
+		posy = posy - 3;
+		//Fila 5	
+		for (int j = 0; j<10; j++) {
+			createBlock(posx,posy, Hard1);
+			posx = posx + 4;
+		}
+		posx = -18;
+		posy = posy - 3;
+		break;
+	case 4:		
+		Hard1 = rand()%5 + 1;
+		Hard2 = rand()%5 + 1;
+		Hard3 = rand()%5 + 1;
+		
+		for (int i = 0; i<2; i++) {
+			//Columna 1 y 6
+			for (int j = 0; j<5; j++) {
+				createBlock(posx,posy, Hard1);
+				posy = posy - 3;
+			}
+			posy = -8;
+			posx = posx + 4;
+			//Columna 2 y 7	
+			for (int j = 0; j<5; j++) {
+				createBlock(posx,posy, Hard2);
+				posy = posy - 3;
+			}
+			posy = -8;
+			posx = posx + 4;
+			//Columna 3 y 8
+			for (int j = 0; j<5; j++) {
+				createBlock(posx,posy, Har3);
+				posy = posy - 3;
+			}
+			posy = -8;
+			posx = posx + 4;
+			//Columna 4 y 9
+			for (int j = 0; j<5; j++) {
+				createBlock(posx,posy, Hard2);
+				posy = posy - 3;
+			}
+			posy = -8;
+			posx = posx + 4;
+			//Columna 5 y 10
+			for (int j = 0; j<5; j++) {
+				createBlock(posx,posy, Hard1);
+				posy = posy - 3;
+			}
+			posy = -8;
+			posx = posx + 4;
+		}
+		break;
+	case 5:	
+		Hard1 = rand()%5 + 1;
+		Hard2 = rand()%5 + 1;
+		Hard3 = rand()%5 + 1;
+		for (int i = 0; i < 5; i++) {
+			
+			createBlock(posx,posy, Hard1);
+			posx = posx + 4;
+			createBlock(posx,posy, Hard2);
+			posx = posx + 4;
+			createBlock(posx,posy, Hard3);
+			posx = posx + 4;
+			createBlock(posx,posy, Hard1);
+			posx = posx + 4;
+			createBlock(posx,posy, Hard2);
+			posx = posx + 4;
+			createBlock(posx,posy, Hard2);
+			posx = posx + 4;
+			createBlock(posx,posy, Hard1);
+			posx = posx + 4;
+			createBlock(posx,posy, Hard3);
+			posx = posx + 4;
+			createBlock(posx,posy, Hard2);
+			posx = posx + 4;
+			createBlock(posx,posy, Hard1);
+			posx = posx + 4;
+
+			posx = -18;
+			posy = posy - 3;
+			temp = Hard1;
+			Hard3 = Hard2;
+			Hard1 = Hard3;
+			Hard2 = temp;
+		}
+		break;
+	case 6:
+		Hard1 = rand()%5 + 1;
+		do{			
+			Hard2 = rand()%5 + 1;	
+		}while(Hard2 == Hard1);
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j<5; j++) {
+				createBlock(posx,posy, Hard1);
+				posx = posx + 4;
+				createBlock(posx,posy, Hard2);
+				posx = posx + 4;
+			}
+			posx = -18;
+			posy = posy - 3;
+			temp = Hard1;
+			Hard1 = Hard2;
+			Hard2 = temp;
+		}
+		break;
+	}
+}
+
+Ogre::SceneNode* BlockContainer::getObjectiveX(){
+	
+	float minY=999;
+	float minX=999;
+	Ogre::SceneNode* block;
+	
+	for (std::vector<Block*>::iterator it = _blocks->begin() ; it != _blocks->end(); ++it){
+		float aux = fabs((*it)->getPosition().x - _IAMgr->getPredicted());
+		if((*it)->getPosition().y <= minY && aux < minX){
+			minY=(*it)->getPosition().y;
+			minX=aux;
+			block =  (*it)->getNode();
+		}
+    }
+    return block;
 }

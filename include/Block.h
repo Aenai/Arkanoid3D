@@ -8,6 +8,7 @@
 #include "GameState.h"
 #include "CollisionableObject.h"
 #include "RecordManager.h"
+#include "GhostBall.h"
 
 #define PLAYER 1 << 0  // Mascara para el escenario
 #define CUBE1 1 << 1  // Mascara para objetos de tipo 1
@@ -16,9 +17,10 @@
 class Block : public CollisionableObject {
 	
  public:
-  Block (Ogre::SceneNode* newBlock, Ball* ball,RecordManager* recordMgr , int hard);
+  Block (Ogre::SceneNode* newBlock, Ball* ball, GhostBall* ghostBall ,RecordManager* recordMgr , int hard);
   
   void hasCollided();
+  bool isDead();
 
   
 

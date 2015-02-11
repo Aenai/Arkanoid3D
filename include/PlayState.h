@@ -26,11 +26,13 @@
 
 #include "GameState.h"
 #include "Ball.h"
+#include "GhostBall.h"
 #include "Block.h"
 #include "BlockContainer.h"
 #include "RecordManager.h"
 #include "TrackManager.h"
 #include "SoundFXManager.h"
+#include "IAManager.h"
 
 #define PLAYER 1 << 0  // Mascara para el escenario
 #define CUBE1 1 << 1  // Mascara para objetos de tipo 1
@@ -91,6 +93,9 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   RecordManager* _recordMgr;
   BlockContainer* _blockMgr;
   Ball* playBall;
+  GhostBall* _ghostBall;
+  IAManager* _IAmgr;
+  Ogre::Timer _freezeTimer;
   
   
   
@@ -103,6 +108,8 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   float _yMinBall;
   float _yMaxBall;
   float _paddleHalfWidth;
+  
+  int _level;
  
   bool _exitGame;
   
