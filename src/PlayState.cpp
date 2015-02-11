@@ -130,6 +130,8 @@ bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 		if(playBall->getY() < -45){
 			_freezeTimer = Ogre::Timer();
 			playBall->startMatch();
+			_ghostBall->setSpeed(playBall->getXSpeed()*2, playBall->getYSpeed()*2);
+			_ghostBall->setPosition(playBall->getPosition());
 		}
 	
 		//FIXME temporary until class PADDLE is finished

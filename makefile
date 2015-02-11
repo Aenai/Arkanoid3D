@@ -14,7 +14,7 @@ CXX := g++
 CXXFLAGS := `pkg-config --cflags OGRE` -I$(DIRHEA) -Wall 
 
 # Flags del linker ---------------------------------------------------
-LDFLAGS := `pkg-config --libs-only-L OGRE`
+LDFLAGS := `pkg-config --libs-only-L OGRE` -std=c++11
 LDLIBS := `pkg-config --libs-only-l OGRE` -lOIS -lstdc++ -lSDL -lSDL_mixer -lboost_system
 
 # Modo de compilación (-mode=release -mode=debug) --------------------

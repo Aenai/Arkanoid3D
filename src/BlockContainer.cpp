@@ -39,12 +39,18 @@ void BlockContainer::createBlock (int x, int y, int hard){
 
 
 void BlockContainer::checkCollision(){
+//	    		_blocks->erase(
+//					std::remove_if(
+//					_blocks->begin(), _blocks->end(), [](decltype(_blocks[0]) i){return i->isDead();});
+
 	for (std::vector<Block*>::iterator it = _blocks->begin() ; it != _blocks->end(); ++it){
 		(*it)->updateVariables();
     	(*it)->checkCollision();
     	if((*it)->isDead()){
     		_blocks->erase(it);
     		_currentBlocks--;
+    		if(it == _blocks->end())
+    			break;
     	}
     }
 }

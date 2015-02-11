@@ -21,6 +21,8 @@ class Block : public CollisionableObject {
   
   void hasCollided();
   bool isDead();
+  
+  
 
   
 
