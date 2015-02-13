@@ -28,7 +28,7 @@ void PlayState::enter ()
 	_viewport->setBackgroundColour(Ogre::ColourValue(0.0, 0.0, 1.0));
 
 	//Paddle Initialization
-	Ogre::Entity* ent1 = _sceneMgr->createEntity("playerPaddle", "cube.mesh");
+	Ogre::Entity* ent1 = _sceneMgr->createEntity("playerPaddle", "block.mesh");
 	ent1->setQueryFlags(PLAYER);
 	_paddle = _sceneMgr->createSceneNode("playerPaddle");
 	_paddle->attachObject(ent1);
@@ -130,8 +130,6 @@ bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 		if(playBall->getY() < -45){
 			_freezeTimer = Ogre::Timer();
 			playBall->startMatch();
-			_ghostBall->setSpeed(playBall->getXSpeed()*2, playBall->getYSpeed()*2);
-			_ghostBall->setPosition(playBall->getPosition());
 		}
 	
 		//FIXME temporary until class PADDLE is finished

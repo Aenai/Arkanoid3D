@@ -39,18 +39,12 @@ void BlockContainer::createBlock (int x, int y, int hard){
 
 
 void BlockContainer::checkCollision(){
-//	    		_blocks->erase(
-//					std::remove_if(
-//					_blocks->begin(), _blocks->end(), [](decltype(_blocks[0]) i){return i->isDead();});
-
 	for (std::vector<Block*>::iterator it = _blocks->begin() ; it != _blocks->end(); ++it){
 		(*it)->updateVariables();
     	(*it)->checkCollision();
     	if((*it)->isDead()){
     		_blocks->erase(it);
     		_currentBlocks--;
-    		if(it == _blocks->end())
-    			break;
     	}
     }
 }
@@ -78,7 +72,7 @@ void BlockContainer::levelGenerator(int level){
 		for (int i = 0; i < 5; i++) {
 			do {			
 				Hard1 = rand()%5 + 1;	
-			} while (Hard1 == temp);
+			} while (Hard1 =! temp);
 			for (int j = 0; j<10; j++) {
 				createBlock(posx,posy, Hard1);
 				posx = posx + 4;
@@ -92,7 +86,7 @@ void BlockContainer::levelGenerator(int level){
 		for (int i = 0; i <10; i++) {
 			do{			
 				Hard1 = rand()%5 + 1;	
-			}while(Hard1 == temp);
+			}while(Hard1 =! temp);
 			for (int j = 0; j<5; j++) {
 				createBlock(posx,posy, Hard1);
 				posy = posy - 3;
@@ -164,7 +158,7 @@ void BlockContainer::levelGenerator(int level){
 			posx = posx + 4;
 			//Columna 3 y 8
 			for (int j = 0; j<5; j++) {
-				createBlock(posx,posy, Hard3);
+				createBlock(posx,posy, Har3);
 				posy = posy - 3;
 			}
 			posy = -8;
