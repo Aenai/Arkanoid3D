@@ -30,7 +30,6 @@ class Ball {
   
   //Getters
   Ogre::Entity* getEntity();
-  Ogre::SceneNode* getNode();
   float getXSpeed();
   float getYSpeed();
   float getX();

@@ -110,7 +110,6 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   float _paddleHalfWidth;
   
   int _level;
-  int _lifes;
  
   bool _exitGame;
   

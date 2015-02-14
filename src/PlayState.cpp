@@ -82,6 +82,7 @@ void PlayState::enter ()
 	
 	_yCollisionCheck = -100;
 	_yMinBall = 100;
+	_lifes = 3;
 	
 	
 	//Level
@@ -117,7 +118,7 @@ void PlayState::resume()
 
 bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 {
-	if(_freezeTimer.getMilliseconds() > 1500){
+	if(_freezeTimer.getMilliseconds() > 1500 && _lifes > 0){
 		playBall->update(evt); //Ball Movement Logic
 		_ghostBall->update(evt);
 		updateVariables();
@@ -129,6 +130,7 @@ bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 		//Game Over Control
 		if(playBall->getY() < -45){
 			_freezeTimer = Ogre::Timer();
+			_lifes--;
 			playBall->startMatch();
 			_ghostBall->setSpeed(playBall->getXSpeed()*2, playBall->getYSpeed()*2);
 			_ghostBall->setPosition(playBall->getPosition());
@@ -213,6 +215,7 @@ void PlayState::keyPressed (const OIS::KeyEvent &e)
 
 void PlayState::keyReleased (const OIS::KeyEvent &e)
 {
+	_IAmgr->keyReleased(e);
 	if (e.key == OIS::KC_ESCAPE) {
 		_exitGame = true;
 	}

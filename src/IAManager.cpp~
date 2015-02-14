@@ -29,7 +29,7 @@ void IAManager::update(const Ogre::FrameEvent& evt, Ogre::SceneNode* blockObject
 	
 	
 	
-		_ghostBall->getNode()->setVisible(_showGhost);
+
 	
 		float xSpace = blockObjective->getPosition().x - _predicted;
 

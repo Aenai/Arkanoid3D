@@ -37,7 +37,6 @@ class IAManager {
   	
   	bool _controlSpeed;
   	bool activated;
-  	bool _showGhost;
   	
   
   

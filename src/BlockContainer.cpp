@@ -25,6 +25,7 @@ void BlockContainer::createBlock (int x, int y, int hard){
 	
 	//Generating Block
 	Ogre::Entity* ent1 = _sceneMgr->createEntity(r_string.str(), "BlockMesh.mesh");
+	ent1->setMaterialName("BlockTexture");
 	Ogre::SceneNode* nodeBlock =  _sceneMgr->createSceneNode(r_string.str());
 	nodeBlock->attachObject(ent1);
 	_sceneMgr->getRootSceneNode()->addChild(nodeBlock);

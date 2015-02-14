@@ -139,7 +139,7 @@ void Ball::setSpeed(float x, float y){
 }
 
 Ogre::SceneNode* Ball::getNode(){
-	return _ball;
+	return 
 }
 
 void Ball::setPosition(const Ogre::Vector3& pos){
