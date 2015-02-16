@@ -78,11 +78,18 @@ void PlayState::enter ()
 	//Inicializar variables
 	_DRight = false;
 	_DLeft = false;
-	_level = 0;
+	
+	std::vector<int> bestLevel = _recordMgr->getRecords();
+	if(bestLevel.empty()){
+		_level = 0;
+	}else{
+		_level = bestLevel[1];
+	}
+	
 	
 	_yCollisionCheck = -100;
 	_yMinBall = 100;
-	_lifes = 3;
+	_lifes = 300;
 	
 	
 	//Level
@@ -90,7 +97,7 @@ void PlayState::enter ()
 	_freezeTimer = Ogre::Timer();
 	
 	updateVariables();
-	playBall->startMatch(); //FIXME temporary call method
+	playBall->startMatch(_level); //FIXME temporary call method
 
 	_exitGame = false;
 }
@@ -131,9 +138,17 @@ bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 		if(playBall->getY() < -45){
 			_freezeTimer = Ogre::Timer();
 			_lifes--;
-			playBall->startMatch();
-			_ghostBall->setSpeed(playBall->getXSpeed()*2, playBall->getYSpeed()*2);
-			_ghostBall->setPosition(playBall->getPosition());
+			restartBall();
+		}
+		
+		//Win Control
+		if(_blockMgr->levelFinished()){
+			_level++;
+			_recordMgr->keepRecord(_recordMgr->getPoints(), _level);
+			_freezeTimer = Ogre::Timer();
+			restartBall();
+			levelGenerator();
+			_lifes = 3;
 		}
 	
 		//FIXME temporary until class PADDLE is finished
@@ -198,17 +213,6 @@ void PlayState::keyPressed (const OIS::KeyEvent &e)
 	}
 	
 	if(e.key == OIS::KC_X){
-	  	/*Ogre::Entity* boardEntity = static_cast<Ogre::Entity*>(_paddle->getAttachedObject(0));
-	  	
-		Ogre::AxisAlignedBox charAABB = boardEntity->getWorldBoundingBox();
-		Ogre::Vector3 min = charAABB.getMinimum();
-		Ogre::Vector3 max = charAABB.getMaximum();
-		//Ogre::Vector3 center = charAABB.getCenter();
-		Ogre::Vector3 size( fabs( max.x - min.x), fabs( max.y - min.y), fabs( max.z - min.z ) );
-		std::cout << size[0] << " " << size[1] << " "<< size[2] <<std::endl;
-		
-		playBall->bottomCollision();*/
-		_recordMgr->keepRecord(_recordMgr->getPoints());
 		_recordMgr->getRecords();
 	  }
 }
@@ -331,5 +335,9 @@ bool PlayState::initSDL () {
     return true;    
 }
 
-
+void PlayState::restartBall(){
+	playBall->startMatch(_level);
+	_ghostBall->setSpeed(playBall->getXSpeed()*2, playBall->getYSpeed()*2);
+	_ghostBall->setPosition(playBall->getPosition());
+}
 

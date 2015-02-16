@@ -119,6 +119,7 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   
   //Support Methods
   void updateVariables();
+  void restartBall();
   bool checkInRange(float participant, float center, float range);
 
   

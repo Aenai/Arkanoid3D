@@ -19,6 +19,7 @@ class BlockContainer {
  public:
   BlockContainer (Ogre::SceneManager* sceneMgr, RecordManager* recordMgr, Ball* playBall, GhostBall* ghostBall, IAManager* iaMgr);
   
+  bool levelFinished();
   
   void createBlock (int x, int y, int hard);
   void startMatch ();

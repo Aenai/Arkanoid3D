@@ -88,10 +88,10 @@ float IAManager::getPredicted(){
 
 void IAManager::keyReleased (const OIS::KeyEvent &e){
 	if (e.key == OIS::KC_X){
-		activated = true;
+		activated = !activated;
 	}
 	if (e.key == OIS::KC_Z){
-		_showGhost = true;
+		_showGhost = !_showGhost;
 	}
 }
 

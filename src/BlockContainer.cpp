@@ -11,6 +11,8 @@ BlockContainer::BlockContainer (Ogre::SceneManager* sceneMgr,RecordManager* reco
 	_ghostBall = ghostBall;
 	_numBlock = 0;
 	_currentBlocks = 0;
+	
+	createBlock(0,1000,1); //Non-crash block
 }
 
 
@@ -40,9 +42,10 @@ void BlockContainer::createBlock (int x, int y, int hard){
 
 
 void BlockContainer::checkCollision(){
-//	    		_blocks->erase(
-//					std::remove_if(
-//					_blocks->begin(), _blocks->end(), [](decltype(_blocks[0]) i){return i->isDead();});
+	
+	if(_currentBlocks <= 2){
+		std::cout << "lol" << std::endl;
+	}
 
 	for (std::vector<Block*>::iterator it = _blocks->begin() ; it != _blocks->end(); ++it){
 		(*it)->updateVariables();
@@ -62,6 +65,9 @@ void BlockContainer::levelGenerator(int level){
 	int Hard1, Hard2, Hard3 = 0;
 	int temp = -1;
 	srand(time(NULL));
+	
+
+
 
 	switch (rand()%7){
 	case 0:
@@ -245,9 +251,12 @@ void BlockContainer::levelGenerator(int level){
 
 Ogre::SceneNode* BlockContainer::getObjectiveX(){
 	
-	float minY=999;
-	float minX=999;
+	float minY=99999;
+	float minX=99999;
 	Ogre::SceneNode* block;
+	
+	std::cout << _currentBlocks << " Blocks"<< std::endl;
+	
 	
 	for (std::vector<Block*>::iterator it = _blocks->begin() ; it != _blocks->end(); ++it){
 		float aux = fabs((*it)->getPosition().x - _IAMgr->getPredicted());
@@ -258,4 +267,8 @@ Ogre::SceneNode* BlockContainer::getObjectiveX(){
 		}
     }
     return block;
+}
+
+bool BlockContainer::levelFinished(){
+	return _currentBlocks <= 1;
 }

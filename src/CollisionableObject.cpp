@@ -39,7 +39,7 @@ void CollisionableObject::checkCollision(Ball* ball){
 	
 	float xBall = ball->getX();
 	float yBall = ball->getY();
-	float error = 0.5;
+	float error = 1.5;
 	bool collided = false;
 	
 	//Top Collision

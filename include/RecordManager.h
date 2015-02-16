@@ -22,8 +22,8 @@ class RecordManager {
 	RecordManager ();
 	
 	//Record Logic
-	std::vector<std::string> getRecords();
-	void keepRecord(int points);
+	std::vector<int> getRecords();
+	void keepRecord(int points, int level);
 	
 	//Points logic
 	int getPoints();

@@ -53,9 +53,9 @@ void Ball::update(const Ogre::FrameEvent& evt){
 	_bYMaxLimit = max.y;
 }
 
-void Ball::startMatch(){
+void Ball::startMatch(int level){
 	
-	_ySpeed=-9;
+	_ySpeed=-10-1*level*0.5;
 	_ball->setPosition(0,-26,-40);
 	_xSpeed= 1;
 	

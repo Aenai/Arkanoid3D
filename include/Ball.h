@@ -19,7 +19,7 @@ class Ball {
   
   //Game Logic
   void update(const Ogre::FrameEvent& evt);
-  void startMatch();
+  void startMatch(int level);
   
   //Collisions
   void collisionPaddle(float newSpeedX);
@@ -39,7 +39,7 @@ class Ball {
   float getMinY();
   float getMaxX();
   float getMaxY();
-const  Ogre::Vector3& getPosition();
+  const  Ogre::Vector3& getPosition();
   bool getGhost();
   
   //Setters
