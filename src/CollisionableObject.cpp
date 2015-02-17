@@ -1,6 +1,7 @@
 
 #include "CollisionableObject.h"
-
+#include "TrackManager.h"
+#include "SoundFXManager.h"
 
 
 
@@ -12,6 +13,7 @@ CollisionableObject::CollisionableObject (Ogre::SceneNode* node, Ball* ball, Gho
 	_entity = static_cast<Ogre::Entity*>(_node->getAttachedObject(0));
 	collDetectDelay = Ogre::Timer();
 	updateVariables();
+	
 }
 
 
@@ -39,7 +41,7 @@ void CollisionableObject::checkCollision(Ball* ball){
 	
 	float xBall = ball->getX();
 	float yBall = ball->getY();
-	float error = 1.5;
+	float error = 0.6;
 	bool collided = false;
 	
 	//Top Collision
@@ -84,6 +86,7 @@ void CollisionableObject::checkCollision(Ball* ball){
 	}
 	
 	if(collided && collDetectDelay.getMilliseconds() > 100){
+		SoundFXManager::getSingletonPtr()->load("all.wav")->play();
 		collDetectDelay = Ogre::Timer();
 		if(!ball->getGhost())
 			hasCollided();

@@ -12,7 +12,7 @@ BlockContainer::BlockContainer (Ogre::SceneManager* sceneMgr,RecordManager* reco
 	_numBlock = 0;
 	_currentBlocks = 0;
 	
-	createBlock(0,1000,1); //Non-crash block
+	createBlock(1000,1000,1); //Non-crash block
 }
 
 
@@ -255,7 +255,6 @@ Ogre::SceneNode* BlockContainer::getObjectiveX(){
 	float minX=99999;
 	Ogre::SceneNode* block;
 	
-	std::cout << _currentBlocks << " Blocks"<< std::endl;
 	
 	
 	for (std::vector<Block*>::iterator it = _blocks->begin() ; it != _blocks->end(); ++it){
