@@ -11,11 +11,11 @@ DIRHEA := include/
 CXX := g++
 
 # Flags de compilación -----------------------------------------------
-CXXFLAGS := `pkg-config --cflags OGRE` -I$(DIRHEA) -Wall 
+CXXFLAGS := `pkg-config --cflags OGRE --cflags CEGUI-OGRE` -I$(DIRHEA) -Wall 
 
 # Flags del linker ---------------------------------------------------
-LDFLAGS := `pkg-config --libs-only-L OGRE` -std=c++11
-LDLIBS := `pkg-config --libs-only-l OGRE` -lOIS -lstdc++ -lSDL -lSDL_mixer -lboost_system
+LDFLAGS := `pkg-config --libs-only-L OGRE --libs-only-L CEGUI-OGRE` -std=c++11
+LDLIBS := `pkg-config --libs-only-l OGRE --libs-only-L CEGUI-OGRE` -lOIS -lstdc++ -lSDL -lSDL_mixer -lboost_system
 
 # Modo de compilación (-mode=release -mode=debug) --------------------
 ifeq ($(mode), release) 

@@ -1,0 +1,26 @@
+#ifndef Menu_H
+#define Menu_H
+
+#include <OIS/OIS.h>
+#include <CEGUI.h>
+#include <RendererModules/Ogre/CEGUIOgreRenderer.h>
+
+class MyMenu {
+private:
+
+  OIS::Mouse* _mouse;
+  CEGUI::OgreRenderer* renderer;
+
+public:
+   
+  void startGUI();
+  void startCursor();
+  void createMenu();
+  void createRecord(const CEGUI::EventArgs &e);
+  void createCredit(const CEGUI::EventArgs &e);
+  bool back(const CEGUI::EventArgs &e);
+  bool quit(const CEGUI::EventArgs &e);
+
+};
+
+#endif

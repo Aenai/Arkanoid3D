@@ -58,10 +58,6 @@ void PlayState::enter ()
 	//Record Manager
 	_recordMgr = new RecordManager();
 
-
-
-	
-	
 	//IA
 	_IAmgr = new IAManager(playBall, _ghostBall, _paddle);
 
