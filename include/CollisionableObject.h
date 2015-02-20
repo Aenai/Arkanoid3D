@@ -7,6 +7,8 @@
 #include "GameState.h"
 #include "Ball.h"
 #include "GhostBall.h"
+#include "TrackManager.h"
+#include "SoundFXManager.h"
 
 #define PLAYER 1 << 0  // Mascara para el escenario
 #define CUBE1 1 << 1  // Mascara para objetos de tipo 1
@@ -33,6 +35,7 @@ class CollisionableObject{
   Ogre::Entity* _entity;
   Ball* playBall;
   GhostBall* _ghostBall;
+  
   
   Ogre::Timer collDetectDelay;
 

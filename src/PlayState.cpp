@@ -25,7 +25,7 @@ void PlayState::enter ()
 	_camera->setFarClipDistance(100);
 	
 	// Nuevo background colour.
-	_viewport->setBackgroundColour(Ogre::ColourValue(0.0, 0.0, 1.0));
+	_viewport->setBackgroundColour(Ogre::ColourValue(0.0, 0.0, 0.0));
 
 	//Paddle Initialization
 	Ogre::Entity* ent1 = _sceneMgr->createEntity("playerPaddle", "cube.mesh");

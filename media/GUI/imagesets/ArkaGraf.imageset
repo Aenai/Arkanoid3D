@@ -1,5 +1,5 @@
 <Imageset AutoScaled="true" Imagefile="ArkaGraf.png" Name="ArkaGraf" NativeHorzRes="800" NativeVertRes="600">
-    <Image Height="205" Name="ClientBrush" Width="205" XPos="568" YPos="14" />
+    <Image Height="203" Name="ClientBrush" Width="201" XPos="570" YPos="15" />
     <Image Height="338" Name="WindowLeftEdge" Width="12" XPos="34" YPos="69" />
     <Image Height="338" Name="WindowRightEdge" Width="13" XPos="291" YPos="69" />
     <Image Height="15" Name="WindowTopEdge" Width="245" XPos="46" YPos="19" />
@@ -92,14 +92,14 @@
     <Image Height="10" Name="MiniHorzScrollRightNormal" Width="9" XPos="99" YPos="176" />
     <Image Height="10" Name="MiniHorzScrollLeftHover" Width="9" XPos="90" YPos="164" />
     <Image Height="10" Name="MiniHorzScrollRightHover" Width="9" XPos="89" YPos="176" />
-    <Image Height="40" Name="ListboxLeft" Width="30" XPos="340" YPos="410" autoScaled="horizontal" />
-    <Image Height="40" Name="ListboxRight" Width="30" XPos="515" YPos="410" autoScaled="horizontal" />
-    <Image Height="30" Name="ListboxTop" Width="30" XPos="429" YPos="380" autoScaled="horizontal" />
-    <Image Height="30" Name="ListboxBottom" Width="30" XPos="429" YPos="450" autoScaled="horizontal" />
-    <Image Height="30" Name="ListboxTopRight" Width="30" XPos="515" YPos="380" autoScaled="horizontal" />
-    <Image Height="30" Name="ListboxBottomLeft" Width="30" XPos="340" YPos="450" autoScaled="horizontal" />
-    <Image Height="30" Name="ListboxBottomRight" Width="30" XPos="515" YPos="450" autoScaled="horizontal" />
-    <Image Height="40" Name="ListboxBackdrop" Width="30" XPos="429" YPos="410" autoScaled="horizontal" />
+    <Image Height="338" Name="ListboxLeft" Width="12" XPos="34" YPos="69" autoScaled="horizontal" />
+    <Image Height="338" Name="ListboxRight" Width="13" XPos="291" YPos="69" autoScaled="horizontal" />
+    <Image Height="15" Name="ListboxTop" Width="245" XPos="46" YPos="19" autoScaled="horizontal" />
+    <Image Height="17" Name="ListboxBottom" Width="245" XPos="46" YPos="440" autoScaled="horizontal" />
+    <Image Height="50" Name="ListboxTopRight" Width="13" XPos="291" YPos="19" autoScaled="horizontal" />
+    <Image Height="50" Name="ListboxBottomLeft" Width="12" XPos="34" YPos="407" autoScaled="horizontal" />
+    <Image Height="50" Name="ListboxBottomRight" Width="13" XPos="291" YPos="407" autoScaled="horizontal" />
+    <Image Height="200" Name="ListboxBackdrop" Width="202" XPos="570" YPos="16" />
     <Image Height="16" Name="ListboxSelectionBrush" Width="16" XPos="590" YPos="405" />
     <Image Height="16" Name="ComboboxEditLeft" Width="8" XPos="84" YPos="517" />
     <Image Height="16" Name="ComboboxEditMiddle" Width="8" XPos="94" YPos="517" />
@@ -235,7 +235,7 @@
     <Image Height="5" Name="PopupMenuArrowRight" Width="5" XPos="179" YPos="204" />
     <Image Height="5" Name="PopupMenuArrowLeft" Width="5" XPos="179" YPos="210" />
     <Image Height="6" Name="StaticTopLeft" Width="6" XPos="16" YPos="556" />
-    <Image Height="30" Name="ListboxTopLeft" Width="30" XPos="340" YPos="380" autoScaled="horizontal" />
+    <Image Height="50" Name="ListboxTopLeft" Width="12" XPos="34" YPos="19" autoScaled="horizontal" />
     <Image Height="6" Name="MultiLineEditboxTopLeft" Width="6" XPos="16" YPos="556" />
     <Image Height="7" Name="TabContentPaneUpperLeft" Width="7" XPos="16" YPos="556" />
 </Imageset>

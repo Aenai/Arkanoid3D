@@ -633,8 +633,7 @@
         <NamedArea name="ClientWithTitleWithFrame">
             <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="ArkaGraf" image="WindowTopLeft" dimension="Width" /></Dim>
-                <!--<Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="BottomEdge" /></Dim>-->
-		<Dim type="TopEdge" ><ImageDim imageset="ArkaGraf" image="WindowTopEdge" dimension="Height" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="BottomEdge" /></Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
                         <DimOperator op="Subtract">
@@ -654,8 +653,7 @@
         <NamedArea name="ClientWithTitleNoFrame">
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
-                <!--<Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="BottomEdge" /></Dim>-->
-		<Dim type="TopEdge" ><ImageDim imageset="ArkaGraf" image="WindowTopEdge" dimension="Height" /></Dim>
+                <Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="BottomEdge" /></Dim>
                 <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
                 <Dim type="BottomEdge" ><WidgetDim dimension="BottomEdge" /></Dim>
             </Area>
@@ -683,8 +681,7 @@
         <NamedArea name="ClientNoTitleNoFrame">
             <Area>
                 <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
-     	        <!--<Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>-->
-		<Dim type="TopEdge" ><ImageDim imageset="ArkaGraf" image="WindowTopEdge" dimension="Height" /></Dim>
+                <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
                 <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
                 <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
             </Area>
@@ -734,8 +731,7 @@
             <FrameComponent>
                 <Area>
                     <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
-		<!--<Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="BottomEdge" /></Dim>-->
-		    <Dim type="TopEdge" ><ImageDim imageset="ArkaGraf" image="WindowTopEdge" dimension="Height" /></Dim>
+                    <Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="BottomEdge" /></Dim>
                     <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
                     <Dim type="BottomEdge" ><UnifiedDim scale="1" type="BottomEdge" /></Dim>
                 </Area>
@@ -744,6 +740,7 @@
                 <Image type="LeftEdge" imageset="ArkaGraf" image="WindowLeftEdge" />
                 <Image type="RightEdge" imageset="ArkaGraf" image="WindowRightEdge" />
                 <Image type="BottomEdge" imageset="ArkaGraf" image="WindowBottomEdge" />
+                <Image type="TopEdge" imageset="ArkaGraf" image="WindowTopEdge" />
                 <Image type="Background" imageset="ArkaGraf" image="ClientBrush" />
                 <VertFormat type="Tiled" />
                 <HorzFormat type="Tiled" />
@@ -757,6 +754,7 @@
                     <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
                     <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
                 </Area>
+                <Image type="TopEdge" imageset="ArkaGraf" image="WindowTopEdge" />
                 <Image type="TopLeftCorner" imageset="ArkaGraf" image="WindowTopLeft" />
                 <Image type="TopRightCorner" imageset="ArkaGraf" image="WindowTopRight" />
                 <Image type="BottomLeftCorner" imageset="ArkaGraf" image="WindowBottomLeft" />

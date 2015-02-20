@@ -55,6 +55,21 @@ void IAManager::update(const Ogre::FrameEvent& evt, Ogre::SceneNode* blockObject
 			if(_predicted != 0){
 				//_paddle->setPosition(_predicted - speed/2 , _paddle->getPosition().y, _paddle->getPosition().z);
 				float posx = _predicted - speed/2;
+				
+				Ogre::AxisAlignedBox charAABB = 
+				(static_cast<Ogre::Entity*>(_paddle->getAttachedObject(0)))->getWorldBoundingBox();
+				Ogre::Vector3 max = charAABB.getMaximum();
+				Ogre::Vector3 min = charAABB.getMinimum();
+				float xSize= max.x - min.x;
+				
+				if(speed > xSize/2)
+					speed= xSize/3;
+				else if (speed < -xSize/2)
+					speed= -xSize/3;
+					
+				posx = _predicted - speed/2;
+				std::cout << speed << " Speed" << std::endl;
+					
 				float distance = fabs(_paddle->getPosition().x - posx);
 				Ogre::Vector3 vt(0, 0, 0);
 				if (posx > _paddle->getPosition().x){
