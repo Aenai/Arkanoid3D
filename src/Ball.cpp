@@ -8,28 +8,16 @@ Ball::Ball (Ogre::SceneNode* newBall, bool ghost){
 	_xSpeed = 0;
   	_ySpeed = 0;
   	
-	_bXMinLimit = 0;
-	_bXMaxLimit = 0;
-	_bYMinLimit = 0;
+      _bXMinLimit = 0;
 	_bYMaxLimit = 0;
-	
 	_isGhost=ghost;
 }
 
 Ball::Ball (Ogre::SceneNode* newBall){
 	
-	_ball = newBall;
-	_xSpeed = 0;
-  	_ySpeed = 0;
-  	
-	_bXMinLimit = 0;
-	_bXMaxLimit = 0;
-	_bYMinLimit = 0;
-	_bYMaxLimit = 0;
 	
 	
 	
-	_isGhost=false;
 }
 
 void Ball::update(const Ogre::FrameEvent& evt){

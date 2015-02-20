@@ -64,17 +64,17 @@ void PlayState::enter ()
 
 	//Block Manager initialization
 	_blockMgr = new BlockContainer(_sceneMgr, _recordMgr, playBall, _ghostBall, _IAmgr);
-	
 	//Sound Managers
+  
 	_pTrackManager = new TrackManager;
   	_pSoundFXManager = new SoundFXManager;
   	(_pTrackManager->load("lightintro.ogg"))->play();
 
+ 
 
 	//Inicializar variables
 	_DRight = false;
 	_DLeft = false;
-	
 	std::vector<int> bestLevel = _recordMgr->getRecords();
 	if(bestLevel.empty()){
 		_level = 0;

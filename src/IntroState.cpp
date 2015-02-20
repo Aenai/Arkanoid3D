@@ -36,6 +36,8 @@ bool IntroState::frameStarted (const Ogre::FrameEvent& evt)
 {
 	_timeSinceLastFrame = evt.timeSinceLastFrame;
 	CEGUI::System::getSingleton().injectTimePulse(_timeSinceLastFrame);
+
+	
 	return true;
 }
 
