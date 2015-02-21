@@ -35,8 +35,15 @@ void PlayState::enter ()
 	_sceneMgr->getRootSceneNode()->addChild(_paddle);
 	_paddle->setScale(4,1,1.2);
 	_paddle->setPosition(0,-35,-40);
-	//playPaddle = new Paddle (_paddle);
-	
+
+	//Bottom initialization
+	ent1 = _sceneMgr->createEntity("bottom", "cube.mesh");
+  ent1->setMaterialName("bottom");
+  Ogre::SceneNode* bottom = _sceneMgr->createSceneNode("bottom");
+	bottom->attachObject(ent1);
+	_sceneMgr->getRootSceneNode()->addChild(bottom);
+	bottom->setScale(60,60,1);
+	bottom->setPosition(0,-15,-55);
 	//Ball initialization
 	ent1 = _sceneMgr->createEntity("ball", "Cube.001.mesh");
 	_ball = _sceneMgr->createSceneNode("ball");

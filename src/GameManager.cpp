@@ -115,8 +115,7 @@ bool GameManager::configure ()
 		}
 	}
 
-	_renderWindow = _root->initialise(true, "Game State Example");
-
+	_renderWindow = _root->initialise(true, "Arkanoid3D");
 	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
 	return true;

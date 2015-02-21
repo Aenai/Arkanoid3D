@@ -68,17 +68,17 @@ void IAManager::update(const Ogre::FrameEvent& evt, Ogre::SceneNode* blockObject
 					speed= -xSize/3;
 					
 				posx = _predicted - speed/2;
-				std::cout << speed << " Speed" << std::endl;
+				
 					
 				float distance = fabs(_paddle->getPosition().x - posx);
 				Ogre::Vector3 vt(0, 0, 0);
 				if (posx > _paddle->getPosition().x){
-					vt += Ogre::Vector3(1 + distance, 0, 0);
+					vt += Ogre::Vector3(1 + distance*2, 0, 0);
 					//_DRight = true;
 					//_DLeft = false;
 				}else
 				if (posx < _paddle->getPosition().x){
-					vt += Ogre::Vector3(-1 - distance, 0, 0);
+					vt += Ogre::Vector3(-1 - distance*2, 0, 0);
 					//_DRight = false;
 					//_DLeft = true;
 				}

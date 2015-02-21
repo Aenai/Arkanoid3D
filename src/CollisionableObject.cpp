@@ -41,7 +41,7 @@ void CollisionableObject::checkCollision(Ball* ball){
 	
 	float xBall = ball->getX();
 	float yBall = ball->getY();
-	float error = 0.6;
+	float error = 0.9;
 	bool collided = false;
 	
 	//Top Collision
@@ -52,7 +52,6 @@ void CollisionableObject::checkCollision(Ball* ball){
 		if(inRange(ball->getMinX(),ball->getMaxX(), _xMinLimit,_xMaxLimit)){
 			topCollision((xBall - _xPaddle) * 2, ball);
 			collided = true;
-			std::cout << collDetectDelay.getMilliseconds() << std::endl;
 		}
 	}
 	
@@ -103,7 +102,6 @@ void CollisionableObject::topCollision(float xNewSpeed, Ball* ball){
 }
 
 void CollisionableObject::hasCollided(){
-	std::cout << "Father" << std::endl;
 }
 
 bool inRange(float participant, float min, float max){
