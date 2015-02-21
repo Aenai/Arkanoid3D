@@ -24,11 +24,42 @@ void BlockContainer::createBlock (int x, int y, int hard){
 	r_string << "block_" << _numBlock;
 	_numBlock += 1;
 	_currentBlocks++;
-	
+
+  //Colour decision
+  int R=1,G=1,B=1;
+  switch (hard) {
+    case 1:
+      R=1;
+      G=0;
+      B=0;
+      break;
+    case 2:
+      R=0;
+      G=1;
+      B=0;
+      break;
+    case 3:
+      R=0;
+      G=0;
+      B=1;
+      break;
+    case 4:
+      R=1;
+      G=0;
+      B=1;
+      break;
+  }
+
 	//Generating Block
 	Ogre::Entity* ent1 = _sceneMgr->createEntity(r_string.str(), "BlockMesh.mesh");
 	ent1->setMaterialName("BlockTexture");
 	Ogre::SceneNode* nodeBlock =  _sceneMgr->createSceneNode(r_string.str());
+  Ogre::MaterialPtr entMaterial = (ent1->getSubEntity(0))->getMaterial();
+  Ogre::MaterialPtr newMaterial = entMaterial->clone(r_string.str());
+
+  newMaterial->getTechnique(0)->getPass(0)->setDiffuse(R,G,B,0);
+  newMaterial->getTechnique(0)->getPass(0)->setAmbient(R,G,B);
+  ent1->setMaterialName(r_string.str());
 	nodeBlock->attachObject(ent1);
 	_sceneMgr->getRootSceneNode()->addChild(nodeBlock);
 	nodeBlock->setScale(2,1,1.2);
@@ -265,7 +296,7 @@ Ogre::SceneNode* BlockContainer::getObjectiveX(){
 			block =  (*it)->getNode();
 		}
     }
-    return block;
+   return block;
 }
 
 bool BlockContainer::levelFinished(){
