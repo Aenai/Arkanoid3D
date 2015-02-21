@@ -53,8 +53,18 @@ class IntroState : public Ogre::Singleton<IntroState>, public GameState
   static IntroState* getSingletonPtr ();
 
   //funciones propias
-  void createMenu();
+  void createGUI();
+  void initMenu();
+  void loadMenu();
+  void optionMenu();
+  void commandMenu();
+  void creditMenu();
   bool initGame(const CEGUI::EventArgs &e);
+  bool load(const CEGUI::EventArgs &e);
+  bool option(const CEGUI::EventArgs &e);
+  bool commands(const CEGUI::EventArgs &e);
+  bool credits(const CEGUI::EventArgs &e);
+  bool quit(const CEGUI::EventArgs &e);
 
  protected:
   Ogre::Root* _root;
@@ -67,6 +77,7 @@ class IntroState : public Ogre::Singleton<IntroState>, public GameState
 
   float _timeSinceLastFrame;
   bool _exitGame;
+  int _cMenu;
 };
 
 #endif

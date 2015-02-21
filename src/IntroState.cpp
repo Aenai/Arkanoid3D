@@ -13,7 +13,8 @@ void IntroState::enter ()
 	_viewport->setBackgroundColour(Ogre::ColourValue(1.0, 1.0, 1.0));
 
 	renderer = &CEGUI::OgreRenderer::bootstrapSystem();
-	createMenu();
+	createGUI();
+	initMenu();
 
 	_exitGame = false;
 }
@@ -119,7 +120,7 @@ IntroState& IntroState::getSingleton ()
 	return *msSingleton;
 }
 
-void IntroState::createMenu(){
+void IntroState::createGUI(){
 	//CEGUI
 
 	//renderer = &CEGUI::OgreRenderer::bootstrapSystem();
@@ -136,31 +137,117 @@ void IntroState::createMenu(){
 	CEGUI::System::getSingleton().setDefaultFont( "DejaVuSans-10" );
 	CEGUI::System::getSingleton().setDefaultMouseCursor("ArkaGraf","MouseArrow");
 	CEGUI::MouseCursor::getSingleton().show( );
+}
 
+void IntroState::initMenu(){
 	//Sheet
 	CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","MenuWin");
 
 	//Config Window
 	CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadWindowLayout("MenuInit.layout");
 
-	//Setting Text!
-	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text1")->setText(" [vert-alignment='centre']Arkanoid Unlimited");
-
 	//Game Window
 	CEGUI::Window* gameButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/GameButton");
 	gameButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&IntroState::initGame, this));
 
-	//Record Window
-	//CEGUI::Window* recordButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/RecordButton");
-	//recordButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MyApp::createRecordLayout, this));
+	//Load Window
+	CEGUI::Window* loadButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/LoadButton");
+	loadButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&IntroState::load, this));
 
-	//Credit Window
-	//CEGUI::Window* creditButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/CreditButton");
-	//creditButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MyApp::watchCredit, this));
+	//Option Window
+	CEGUI::Window* optionButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/OptionButton");
+	optionButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&IntroState::option, this));
 
 	//Exit Window
 	CEGUI::Window* exitButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/ExitButton");
 	exitButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&IntroState::quit, this));
+	
+	//Attaching buttons
+	sheet->addChildWindow(formatWin);
+	CEGUI::System::getSingleton().setGUISheet(sheet);
+}
+
+void IntroState::loadMenu(){
+	//Sheet
+	CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","LoadWin");
+
+	//Config Window
+	CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadWindowLayout("MenuLoad.layout");
+
+
+
+	//Back Window
+	CEGUI::Window* backButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/BackButton");
+	_cMenu = 0;
+	backButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&IntroState::back, this));
+	
+	//Attaching buttons
+	sheet->addChildWindow(formatWin);
+	CEGUI::System::getSingleton().setGUISheet(sheet);
+}
+
+
+void IntroState::optionMenu(){
+	//Sheet
+	CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","OptionWin");
+
+	//Config Window
+	CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadWindowLayout("MenuOption.layout");
+
+	//Command Window
+	CEGUI::Window* commandButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/CommandButton");
+	commandButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&IntroState::commands, this));
+
+	//Credit Window
+	CEGUI::Window* creditButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/CreditsButton");
+	creditButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&IntroState::credits, this));
+
+	//Back Window
+	CEGUI::Window* backButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/BackButton");
+	_cMenu = 0;
+	backButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&IntroState::back, this));
+	
+	//Attaching buttons
+	sheet->addChildWindow(formatWin);
+	CEGUI::System::getSingleton().setGUISheet(sheet);
+}
+
+void IntroState::commandMenu(){
+	//Sheet
+	CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","CommandWin");
+
+	//Config Window
+	CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadWindowLayout("MenuCommands.layout");
+
+	
+
+	//Back Window
+	CEGUI::Window* backButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/BackButton");
+	_cMenu = 1;
+	backButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&IntroState::back, this));
+	
+	//Attaching buttons
+	sheet->addChildWindow(formatWin);
+	CEGUI::System::getSingleton().setGUISheet(sheet);
+}
+
+
+void IntroState::creditMenu(){
+	//Sheet
+	CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","CreditWin");
+
+	//Config Window
+	CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadWindowLayout("MenuCredit.layout");
+
+	//Setting Text!
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text1")->setText(" [vert-alignment='centre']Diseñado por:");
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text2")->setText(" [vert-alignment='centre']  - Juan Carlos Fernandez Duran");
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text3")->setText(" [vert-alignment='centre']  - Ivan Martinez Heras");
+
+	//Back Window
+	CEGUI::Window* backButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/BackButton");
+	_cMenu = 1;
+	backButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&IntroState::back, this));
 	
 	//Attaching buttons
 	sheet->addChildWindow(formatWin);
@@ -173,6 +260,45 @@ bool IntroState::initGame(const CEGUI::EventArgs &e){
 	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("MenuWin");
 	changeState(PlayState::getSingletonPtr());
 
+	return true;
+}
+
+bool IntroState::load(const CEGUI::EventArgs &e){
+	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("MenuWin");
+	loadMenu();
+	return true;
+}
+
+bool IntroState::option(const CEGUI::EventArgs &e){
+	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("MenuWin");
+	optionMenu();
+	return true;
+}
+
+bool IntroState::commands(const CEGUI::EventArgs &e){
+	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("OptionWin");
+	commandMenu();
+	return true;
+}
+
+bool IntroState::credits(const CEGUI::EventArgs &e){
+	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("OptionWin");
+	creditMenu();
+	return true;
+}
+
+bool IntroState::back(const CEGUI::EventArgs &e){
+	CEGUI::WindowManager::getSingletonPtr()->destroyAllWindows();
+
+	switch(_cMenu)
+	{
+		case 0:
+			initMenu();
+			break;
+		case 1:
+			optionMenu();
+			break;
+	}
 	return true;
 }
 

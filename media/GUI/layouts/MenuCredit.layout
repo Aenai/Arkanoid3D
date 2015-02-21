@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GUILayout>
+  <Window Type="ArkaGraf/FrameWindow" Name="FormatWin">
+    <Property Name="Text" Value=""/>
+    <Property Name="TitlebarEnabled" Value="false"/>
+    <Property Name="UnifiedAreaRect" Value="{{0.25,0},{0.50,0},{0.75,0},{0.95,0}}"/>
+    <!-- Static Text -->
+    <Window Type="ArkaGraf/StaticText" Name="FormatWin/Text1">
+      <Property Name="UnifiedAreaRect" Value="{{0.20,0},{0.10,0},{0.80,0},{0.20,0}}"/>
+    </Window>
+    <Window Type="ArkaGraf/StaticText" Name="FormatWin/Text2">
+      <Property Name="UnifiedAreaRect" Value="{{0.20,0},{0.25,0},{0.80,0},{0.35,0}}"/>
+    </Window>
+    <Window Type="ArkaGraf/StaticText" Name="FormatWin/Text3">
+      <Property Name="UnifiedAreaRect" Value="{{0.20,0},{0.40,0},{0.80,0},{0.50,0}}"/>
+    </Window>
+    <!-- Exit Button -->
+    <Window Type="ArkaGraf/Button" Name="FormatWin/BackButton">
+      <Property Name="Text" Value="Atras" />
+      <Property Name="UnifiedAreaRect" Value="{{0.20,0},{0.65,0},{0.80,0},{0.85,0}}"/>
+    </Window>
+  </Window>
+</GUILayout>
