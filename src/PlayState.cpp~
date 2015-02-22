@@ -25,7 +25,7 @@ void PlayState::enter ()
 	_camera->setFarClipDistance(100);
 	
 	// Nuevo background colour.
-	_viewport->setBackgroundColour(Ogre::ColourValue(0.0, 0.0, 1.0));
+	_viewport->setBackgroundColour(Ogre::ColourValue(0.0, 0.0, 0.0));
 
 	//Paddle Initialization
 	Ogre::Entity* ent1 = _sceneMgr->createEntity("playerPaddle", "cube.mesh");
@@ -35,8 +35,15 @@ void PlayState::enter ()
 	_sceneMgr->getRootSceneNode()->addChild(_paddle);
 	_paddle->setScale(4,1,1.2);
 	_paddle->setPosition(0,-35,-40);
-	//playPaddle = new Paddle (_paddle);
-	
+
+	//Bottom initialization
+	ent1 = _sceneMgr->createEntity("bottom", "cube.mesh");
+  ent1->setMaterialName("bottom");
+  Ogre::SceneNode* bottom = _sceneMgr->createSceneNode("bottom");
+	bottom->attachObject(ent1);
+	_sceneMgr->getRootSceneNode()->addChild(bottom);
+	bottom->setScale(60,60,1);
+	bottom->setPosition(0,-15,-55);
 	//Ball initialization
 	ent1 = _sceneMgr->createEntity("ball", "Cube.001.mesh");
 	_ball = _sceneMgr->createSceneNode("ball");
@@ -58,27 +65,23 @@ void PlayState::enter ()
 	//Record Manager
 	_recordMgr = new RecordManager();
 
-
-
-	
-	
 	//IA
 	_IAmgr = new IAManager(playBall, _ghostBall, _paddle);
 
 
 	//Block Manager initialization
 	_blockMgr = new BlockContainer(_sceneMgr, _recordMgr, playBall, _ghostBall, _IAmgr);
-	
 	//Sound Managers
+  
 	_pTrackManager = new TrackManager;
   	_pSoundFXManager = new SoundFXManager;
   	(_pTrackManager->load("lightintro.ogg"))->play();
 
+ 
 
 	//Inicializar variables
 	_DRight = false;
 	_DLeft = false;
-	
 	std::vector<int> bestLevel = _recordMgr->getRecords();
 	if(bestLevel.empty()){
 		_level = 0;
@@ -95,6 +98,9 @@ void PlayState::enter ()
 	//Level
 	levelGenerator ();
 	_freezeTimer = Ogre::Timer();
+
+	//Inicializamos el HUD
+	createHUD();
 	
 	updateVariables();
 	playBall->startMatch(_level); //FIXME temporary call method
@@ -340,4 +346,22 @@ void PlayState::restartBall(){
 	_ghostBall->setSpeed(playBall->getXSpeed()*2, playBall->getYSpeed()*2);
 	_ghostBall->setPosition(playBall->getPosition());
 }
+
+void PlayState::createHUD(){
+	//Sheet
+	CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","HUDWin");
+
+	//Config Window
+	CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadWindowLayout("HUD.layout");
+
+	//Setting Text!
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text1")->setText("[vert-alignment='centre']Nivel ");
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text2")->setText("[vert-alignment='centre']" + _level);
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text3")->setText("[vert-alignment='centre'][image-size='w:90 h:35'][image='set:ArkaGraf image:ImgHeart3']");
+	
+	//Attaching buttons
+	sheet->addChildWindow(formatWin);
+	CEGUI::System::getSingleton().setGUISheet(sheet);
+}
+
 

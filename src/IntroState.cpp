@@ -14,6 +14,7 @@ void IntroState::enter ()
 
 	renderer = &CEGUI::OgreRenderer::bootstrapSystem();
 	createGUI();
+	_initGameControl = true;
 	initMenu();
 
 	_exitGame = false;
@@ -58,10 +59,12 @@ void IntroState::keyPressed (const OIS::KeyEvent &e)
 	// Transición al siguiente estado.
 	// Espacio --> PlayState
 	if (e.key == OIS::KC_SPACE) {
-		CEGUI::MouseCursor::getSingleton().hide( );
-		//CEGUI::WindowManager::getSingletonPtr()->destroyAllWindows();
-		CEGUI::WindowManager::getSingletonPtr()->destroyWindow("MenuWin");
-		changeState(PlayState::getSingletonPtr());
+		if (_initGameControl == true){
+			CEGUI::MouseCursor::getSingleton().hide( );
+			//CEGUI::WindowManager::getSingletonPtr()->destroyAllWindows();
+			CEGUI::WindowManager::getSingletonPtr()->destroyWindow("MenuWin");
+			changeState(PlayState::getSingletonPtr());
+		}
 	}
 }
 
@@ -131,6 +134,7 @@ void IntroState::createGUI(){
 	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
 
 	CEGUI::SchemeManager::getSingleton().create("ArkaGraf.scheme");
+	CEGUI::ImagesetManager::getSingleton().create("ArkaGraf.imageset");
 	//CEGUI::System::getSingleton().setDefaultFont("DejaVuSans-10");
 	if(! CEGUI::FontManager::getSingleton().isDefined( "DejaVuSans-10" ) )
 	CEGUI::FontManager::getSingleton().createFreeTypeFont( "DejaVuSans-10", 10, true, "DejaVuSans.ttf", "Fonts" );
@@ -219,7 +223,14 @@ void IntroState::commandMenu(){
 	//Config Window
 	CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadWindowLayout("MenuCommands.layout");
 
-	
+	//Setting Text!
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text3")->setText(" [vert-alignment='centre'][image-size='w:36 h:36'][image='set:ArkaGraf image:ImgKeyP'] --> Detener el juego");
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text6")->setText(" [vert-alignment='centre'][image-size='w:36 h:36'][image='set:ArkaGraf image:ImgKeyX'] --> Activar la IA");
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text7")->setText(" [vert-alignment='centre'][image-size='w:36 h:36'][image='set:ArkaGraf image:ImgKeyZ'] --> Activar una bola 'fantasma'");
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text2")->setText(" [vert-alignment='centre'][image-size='w:36 h:36'][image='set:ArkaGraf image:ImgKeyEsc'] --> Cerrar el juego");
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text1")->setText(" [vert-alignment='centre'][image-size='w:120 h:36'][image='set:ArkaGraf image:ImgKeySpace'] --> Iniciar juego nuevo");
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text4")->setText(" [vert-alignment='centre'][image-size='w:36 h:36'][image='set:ArkaGraf image:ImgKeyLeft'] o [image-size='w:40 h:40'][image='set:ArkaGraf image:ImgMouseLeft'] --> Moverse a la izquierda");
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text5")->setText(" [vert-alignment='centre'][image-size='w:36 h:36'][image='set:ArkaGraf image:ImgKeyRight'] o [image-size='w:40 h:40'][image='set:ArkaGraf image:ImgMouseRight'] --> Moverse a la derecha");
 
 	//Back Window
 	CEGUI::Window* backButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/BackButton");
@@ -240,9 +251,9 @@ void IntroState::creditMenu(){
 	CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadWindowLayout("MenuCredit.layout");
 
 	//Setting Text!
-	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text1")->setText(" [vert-alignment='centre']Diseñado por:");
-	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text2")->setText(" [vert-alignment='centre']  - Juan Carlos Fernandez Duran");
-	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text3")->setText(" [vert-alignment='centre']  - Ivan Martinez Heras");
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text1")->setText("[vert-alignment='centre']Diseñado por:");
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text2")->setText("[vert-alignment='centre']   - Juan Carlos Fernandez Duran");
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text3")->setText("[vert-alignment='centre']   - Ivan Martinez Heras");
 
 	//Back Window
 	CEGUI::Window* backButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/BackButton");
@@ -264,35 +275,41 @@ bool IntroState::initGame(const CEGUI::EventArgs &e){
 }
 
 bool IntroState::load(const CEGUI::EventArgs &e){
+	_initGameControl=false;
 	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("MenuWin");
 	loadMenu();
 	return true;
 }
 
 bool IntroState::option(const CEGUI::EventArgs &e){
+	_initGameControl=false;
 	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("MenuWin");
 	optionMenu();
 	return true;
 }
 
 bool IntroState::commands(const CEGUI::EventArgs &e){
+	_initGameControl=false;
 	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("OptionWin");
 	commandMenu();
 	return true;
 }
 
 bool IntroState::credits(const CEGUI::EventArgs &e){
+	_initGameControl=false;
 	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("OptionWin");
 	creditMenu();
 	return true;
 }
 
 bool IntroState::back(const CEGUI::EventArgs &e){
+	_initGameControl=false;
 	CEGUI::WindowManager::getSingletonPtr()->destroyAllWindows();
 
 	switch(_cMenu)
 	{
 		case 0:
+			_initGameControl=true;
 			initMenu();
 			break;
 		case 1:

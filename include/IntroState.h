@@ -79,6 +79,7 @@ class IntroState : public Ogre::Singleton<IntroState>, public GameState
   float _timeSinceLastFrame;
   bool _exitGame;
   int _cMenu;
+  bool _initGameControl;
 };
 
 #endif

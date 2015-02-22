@@ -33,6 +33,8 @@
 #include "TrackManager.h"
 #include "SoundFXManager.h"
 #include "IAManager.h"
+#include <CEGUI.h>
+#include <RendererModules/Ogre/CEGUIOgreRenderer.h>
 
 #define PLAYER 1 << 0  // Mascara para el escenario
 #define CUBE1 1 << 1  // Mascara para objetos de tipo 1
@@ -72,6 +74,7 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   // Funciones propias
   void paddleMove ();
   void levelGenerator ();
+  void createHUD();
 
  protected:
   Ogre::Root* _root;
@@ -96,7 +99,7 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   GhostBall* _ghostBall;
   IAManager* _IAmgr;
   Ogre::Timer _freezeTimer;
-  
+  CEGUI::OgreRenderer* renderer;
   
   
 	

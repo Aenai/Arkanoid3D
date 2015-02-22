@@ -66,8 +66,6 @@ class PauseState : public Ogre::Singleton<PauseState>, public GameState
   Ogre::Camera* _camera;
   CEGUI::OgreRenderer* renderer;
 
-  CEGUI::MouseButton convertMouseButton(OIS::MouseButtonID id);
-
   bool _exitGame;
 };
 

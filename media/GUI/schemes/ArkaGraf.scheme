@@ -42,6 +42,6 @@
 	<FalagardMapping WindowType="ArkaGraf/Tooltip" TargetType="CEGUI/Tooltip" Renderer="Falagard/Tooltip" LookNFeel="ArkaGraf/Tooltip" />
 	<FalagardMapping WindowType="ArkaGraf/StaticImage" TargetType="DefaultWindow" Renderer="Falagard/StaticImage" LookNFeel="ArkaGraf/StaticImage" />
 	<FalagardMapping WindowType="ArkaGraf/StaticText"  TargetType="DefaultWindow" Renderer="Falagard/StaticText"  LookNFeel="ArkaGraf/StaticText" />
-    <FalagardMapping WindowType="ArkaGraf/ItemListbox" TargetType="CEGUI/ItemListbox" Renderer="Falagard/ItemListbox" LookNFeel="ArkaGraf/ItemListbox" />
-    <FalagardMapping WindowType="ArkaGraf/ListboxItem" TargetType="CEGUI/ItemEntry"   Renderer="Falagard/ItemEntry"   LookNFeel="ArkaGraf/ListboxItem" />
+    	<FalagardMapping WindowType="ArkaGraf/ItemListbox" TargetType="CEGUI/ItemListbox" Renderer="Falagard/ItemListbox" LookNFeel="ArkaGraf/ItemListbox" />
+    	<FalagardMapping WindowType="ArkaGraf/ListboxItem" TargetType="CEGUI/ItemEntry"   Renderer="Falagard/ItemEntry"   LookNFeel="ArkaGraf/ListboxItem" />
 </GUIScheme>

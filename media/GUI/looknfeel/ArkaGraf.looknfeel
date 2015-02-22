@@ -652,10 +652,22 @@
         </NamedArea>
         <NamedArea name="ClientWithTitleNoFrame">
             <Area>
-                <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
-                <Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="BottomEdge" /></Dim>
-                <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
-                <Dim type="BottomEdge" ><WidgetDim dimension="BottomEdge" /></Dim>
+                <Dim type="LeftEdge" ><ImageDim imageset="ArkaGraf" image="WindowTopLeft" dimension="Width" /></Dim>
+                <Dim type="TopEdge" ><ImageDim imageset="ArkaGraf" image="WindowTopEdge" dimension="Height" /></Dim>
+                <Dim type="RightEdge" >
+                    <UnifiedDim scale="1" type="RightEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="ArkaGraf" image="WindowTopRight" dimension="Width" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
+                <Dim type="BottomEdge" >
+                    <UnifiedDim scale="1" type="BottomEdge">
+                        <DimOperator op="Subtract">
+                            <ImageDim imageset="ArkaGraf" image="WindowBottomEdge" dimension="Height" />
+                        </DimOperator>
+                    </UnifiedDim>
+                </Dim>
             </Area>
         </NamedArea>
         <NamedArea name="ClientNoTitleWithFrame">
@@ -768,17 +780,25 @@
             </FrameComponent>
         </ImagerySection>
         <ImagerySection name="withtitle_noframe_client_area">
-            <ImageryComponent>
+            <FrameComponent>
                 <Area>
                     <Dim type="LeftEdge" ><AbsoluteDim value="0" /></Dim>
-                    <Dim type="TopEdge" ><WidgetDim widget="__auto_titlebar__" dimension="Height" /></Dim>
+                    <Dim type="TopEdge" ><AbsoluteDim value="0" /></Dim>
                     <Dim type="Width" ><UnifiedDim scale="1" type="Width" /></Dim>
-                    <Dim type="BottomEdge" ><UnifiedDim scale="1" type="BottomEdge" /></Dim>
+                    <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
                 </Area>
-                <Image imageset="ArkaGraf" image="ClientBrush" />
+                <Image type="TopEdge" imageset="ArkaGraf" image="WindowTopEdge" />
+                <Image type="TopLeftCorner" imageset="ArkaGraf" image="WindowTopLeft" />
+                <Image type="TopRightCorner" imageset="ArkaGraf" image="WindowTopRight" />
+                <Image type="BottomLeftCorner" imageset="ArkaGraf" image="WindowBottomLeft" />
+                <Image type="BottomRightCorner" imageset="ArkaGraf" image="WindowBottomRight" />
+                <Image type="LeftEdge" imageset="ArkaGraf" image="WindowLeftEdge" />
+                <Image type="RightEdge" imageset="ArkaGraf" image="WindowRightEdge" />
+                <Image type="BottomEdge" imageset="ArkaGraf" image="WindowBottomEdge" />
+                <Image type="Background" imageset="ArkaGraf" image="InvisibleBackground" />
                 <VertFormat type="Tiled" />
                 <HorzFormat type="Tiled" />
-            </ImageryComponent>
+            </FrameComponent>
         </ImagerySection>
         <ImagerySection name="notitle_noframe_client_area">
             <ImageryComponent>
@@ -4530,7 +4550,6 @@
                 </Section>
             </Layer>
         </StateImagery>
-    </WidgetLook>
-
+    </WidgetLook>  
 </Falagard>
 

@@ -98,6 +98,9 @@ void PlayState::enter ()
 	//Level
 	levelGenerator ();
 	_freezeTimer = Ogre::Timer();
+
+	//Inicializamos el HUD
+	createHUD();
 	
 	updateVariables();
 	playBall->startMatch(_level); //FIXME temporary call method
@@ -343,4 +346,22 @@ void PlayState::restartBall(){
 	_ghostBall->setSpeed(playBall->getXSpeed()*2, playBall->getYSpeed()*2);
 	_ghostBall->setPosition(playBall->getPosition());
 }
+
+void PlayState::createHUD(){
+	//Sheet
+	CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","HUDWin");
+
+	//Config Window
+	CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadWindowLayout("HUD.layout");
+
+	//Setting Text!
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text1")->setText("[vert-alignment='centre']Nivel ");
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text2")->setText("[vert-alignment='centre']" + _level);
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text3")->setText("[vert-alignment='centre'][image-size='w:100 h:35'][image='set:ArkaGraf image:ImgHeart3']");
+	
+	//Attaching buttons
+	sheet->addChildWindow(formatWin);
+	CEGUI::System::getSingleton().setGUISheet(sheet);
+}
+
 

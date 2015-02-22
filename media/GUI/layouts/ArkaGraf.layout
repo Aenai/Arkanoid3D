@@ -1,25 +1,13 @@
 <GUILayout>
     <Window Name="FrameWindow" Type="ArkaGraf/FrameWindow">
-        <Property Name="UnifiedAreaRect" Value="{{0,360},{0,-20},{0,870},{0,310}}" />
-        <Property Name="TitlebarEnabled" Value="false" />
-        <Property Name="VerticalAlignment" Value="Bottom" />
+        <Property Name="UnifiedAreaRect" Value="{{0,54},{0,54},{0,694},{0,547}}" />
+        <Property Name="FrameEnabled" Value="false" />
+        <Property Name="SizingEnabled" Value="false" />
         <AutoWindow NameSuffix="__auto_titlebar__">
             <Property Name="AlwaysOnTop" Value="false" />
         </AutoWindow>
         <AutoWindow NameSuffix="__auto_closebutton__">
             <Property Name="AlwaysOnTop" Value="true" />
         </AutoWindow>
-        <Window Name="FrameWindow/Button" Type="ArkaGraf/Button">
-            <Property Name="UnifiedAreaRect" Value="{{0,140},{0,15},{0,330},{0,65}}" />
-        </Window>
-        <Window Name="FrameWindow/Button2" Type="ArkaGraf/Button">
-            <Property Name="UnifiedAreaRect" Value="{{0,140},{0,80},{0,330},{0,130}}" />
-        </Window>
-        <Window Name="FrameWindow/Button3" Type="ArkaGraf/Button">
-            <Property Name="UnifiedAreaRect" Value="{{0,140},{0,145},{0,330},{0,195}}" />
-        </Window>
-        <Window Name="FrameWindow/Button4" Type="ArkaGraf/Button">
-            <Property Name="UnifiedAreaRect" Value="{{0,140},{0,210},{0,330},{0,260}}" />
-        </Window>
     </Window>
 </GUILayout>

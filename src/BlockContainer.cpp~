@@ -253,13 +253,13 @@ void BlockContainer::levelGenerator(int level){
 			posx = posx + 4;
 			createBlock(posx,posy, Hard2);
 			posx = posx + 4;
-			createBlock(posx,posy, Hard3);
+			createBlock(posx,posy, Hard2);
 			posx = posx + 4;
 			createBlock(posx,posy, Hard1);
 			posx = posx + 4;
-			createBlock(posx,posy, Hard2);
-			posx = posx + 4;
 			createBlock(posx,posy, Hard3);
+			posx = posx + 4;
+			createBlock(posx,posy, Hard2);
 			posx = posx + 4;
 			createBlock(posx,posy, Hard1);
 			posx = posx + 4;
