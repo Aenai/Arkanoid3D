@@ -11,7 +11,7 @@
             <Property Name="AlwaysOnTop" Value="true" />
         </AutoWindow>
     </Window>
-    <Window Name="FormatWin" Type="ArkaGraf/FrameWindow" >
+    <Window Name="FrameWindow2" Type="ArkaGraf/FrameWindow" >
     <Property Name="Text" Value=""/>
     <Property Name="TitlebarEnabled" Value="false"/>
     <Property Name="UnifiedAreaRect" Value="{{0,0},{0.87,0},{1,0},{1,0}}"/>

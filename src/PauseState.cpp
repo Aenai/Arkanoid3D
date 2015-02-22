@@ -114,7 +114,7 @@ void PauseState::pauseMenu(){
 	CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadWindowLayout("MenuPause.layout");
 
 	//Setting Text!
-	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text1")->setText("[vert-alignment='centre']PAUSE");
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/TextPause")->setText("[vert-alignment='centre']PAUSE");
 
 	//Continue Window
 	CEGUI::Window* continueButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/ContinueButton");

@@ -142,7 +142,7 @@ bool PauseState::contin(const CEGUI::EventArgs &e){
 
 bool PauseState::intro(const CEGUI::EventArgs &e){
 	//CEGUI::MouseCursor::getSingleton().hide( );
-	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("PauseWin");
+	//CEGUI::WindowManager::getSingletonPtr()->destroyWindow("PauseWin");
 	changeState(IntroState::getSingletonPtr());
 	return true;
 }
