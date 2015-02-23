@@ -65,7 +65,7 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   bool frameStarted (const Ogre::FrameEvent& evt);
   bool frameEnded (const Ogre::FrameEvent& evt);
   
-  
+  void newGame(bool newGame);
 
   // Heredados de Ogre::Singleton.
   static PlayState& getSingleton ();
@@ -75,6 +75,9 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   void paddleMove ();
   void levelGenerator ();
   void createHUD();
+  void GameOver();
+  bool newGame(const CEGUI::EventArgs &e);
+  bool reStart(const CEGUI::EventArgs &e);
 
  protected:
   Ogre::Root* _root;
@@ -99,9 +102,11 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   GhostBall* _ghostBall;
   IAManager* _IAmgr;
   Ogre::Timer _freezeTimer;
-  CEGUI::OgreRenderer* renderer;
+  //CEGUI::OgreRenderer* renderer;
   
-  
+  CEGUI::MouseButton convertMouseButton(OIS::MouseButtonID id);
+
+  bool _isNewGame; 
 	
   bool _DRight;
   bool _DLeft;
@@ -116,6 +121,7 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   int _lifes;
  
   bool _exitGame;
+  bool _gameOver;
   
   //Test Variables FIXME
   Block* testBlock;

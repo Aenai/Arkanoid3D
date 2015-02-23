@@ -269,6 +269,7 @@ bool IntroState::initGame(const CEGUI::EventArgs &e){
 	CEGUI::MouseCursor::getSingleton().hide( );
 	//CEGUI::WindowManager::getSingletonPtr()->destroyAllWindows();
 	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("MenuWin");
+	PlayState::getSingletonPtr()->newGame(true);
 	changeState(PlayState::getSingletonPtr());
 
 	return true;
@@ -277,7 +278,9 @@ bool IntroState::initGame(const CEGUI::EventArgs &e){
 bool IntroState::load(const CEGUI::EventArgs &e){
 	_initGameControl=false;
 	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("MenuWin");
-	loadMenu();
+	CEGUI::MouseCursor::getSingleton().hide( );
+        PlayState::getSingletonPtr()->newGame(false);
+	changeState(PlayState::getSingletonPtr());
 	return true;
 }
 

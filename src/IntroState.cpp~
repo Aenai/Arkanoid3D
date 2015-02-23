@@ -134,6 +134,7 @@ void IntroState::createGUI(){
 	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
 
 	CEGUI::SchemeManager::getSingleton().create("ArkaGraf.scheme");
+	CEGUI::ImagesetManager::getSingleton().create("ArkaGraf.imageset");
 	//CEGUI::System::getSingleton().setDefaultFont("DejaVuSans-10");
 	if(! CEGUI::FontManager::getSingleton().isDefined( "DejaVuSans-10" ) )
 	CEGUI::FontManager::getSingleton().createFreeTypeFont( "DejaVuSans-10", 10, true, "DejaVuSans.ttf", "Fonts" );
@@ -268,6 +269,7 @@ bool IntroState::initGame(const CEGUI::EventArgs &e){
 	CEGUI::MouseCursor::getSingleton().hide( );
 	//CEGUI::WindowManager::getSingletonPtr()->destroyAllWindows();
 	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("MenuWin");
+	PlayState::getSingletonPtr()->newGame(false);
 	changeState(PlayState::getSingletonPtr());
 
 	return true;

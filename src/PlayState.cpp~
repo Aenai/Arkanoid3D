@@ -92,8 +92,8 @@ void PlayState::enter ()
 	
 	_yCollisionCheck = -100;
 	_yMinBall = 100;
-	_lifes = 300;
-	
+	_lifes = 3;
+	_gameOver = false;
 	
 	//Level
 	levelGenerator ();
@@ -147,7 +147,10 @@ bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 			switch(_lifes)
 			{
 				case 0:
+					CEGUI::MouseCursor::getSingleton().show( );
 					CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text3")->setText("[vert-alignment='centre'][image-size='w:100 h:35'][image='set:ArkaGraf image:ImgHeart0']");
+					GameOver();
+					_gameOver = true;
 					break;
 				case 1:
 					CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text3")->setText("[vert-alignment='centre'][image-size='w:100 h:35'][image='set:ArkaGraf image:ImgHeart1']");
@@ -253,32 +256,57 @@ void PlayState::keyReleased (const OIS::KeyEvent &e)
 
 void PlayState::mouseMoved (const OIS::MouseEvent &e)
 {
-	Real posx = e.state.X.rel;
-	Ogre::Vector3 vt(0, 0, 0);
-	if (posx > 0){
-		if (_paddle->getPosition().x < XRIGHTWALL) vt += Ogre::Vector3(1, 0, 0);
-		//_DRight = true;
-		//_DLeft = false;
+	if(_gameOver == false){
+		Real posx = e.state.X.rel;
+		Ogre::Vector3 vt(0, 0, 0);
+		if (posx > 0){
+			if (_paddle->getPosition().x < XRIGHTWALL) vt += Ogre::Vector3(1, 0, 0);
+				//_DRight = true;
+				//_DLeft = false;
+		}
+		if (posx < 0){
+			if (_paddle->getPosition().x > XLEFTWALL) vt += Ogre::Vector3(-1, 0, 0);
+			//_DRight = false;
+			//_DLeft = true;
+		}
+		if (posx == 0){
+			_DRight = false;
+			_DLeft = false;	
+		}
+		_paddle->translate(vt);
+	}else{
+		CEGUI::System::getSingleton().injectMouseMove(e.state.X.rel, e.state.Y.rel);
 	}
-	if (posx < 0){
-		if (_paddle->getPosition().x > XLEFTWALL) vt += Ogre::Vector3(-1, 0, 0);
-		//_DRight = false;
-		//_DLeft = true;
-	}
-	if (posx == 0){
-		_DRight = false;
-		_DLeft = false;	
-	}
-	_paddle->translate(vt);
-
 }
 
 void PlayState::mousePressed (const OIS::MouseEvent &e, OIS::MouseButtonID id)
 {
+	CEGUI::System::getSingleton().injectMouseButtonDown(convertMouseButton(id));
 }
 
 void PlayState::mouseReleased (const OIS::MouseEvent &e, OIS::MouseButtonID id)
 {
+	CEGUI::System::getSingleton().injectMouseButtonUp(convertMouseButton(id));
+}
+
+CEGUI::MouseButton PlayState::convertMouseButton(OIS::MouseButtonID id)
+{
+	CEGUI::MouseButton ceguiId;
+	switch(id)
+	{
+		case OIS::MB_Left:
+			ceguiId = CEGUI::LeftButton;
+			break;
+		case OIS::MB_Right:
+			ceguiId = CEGUI::RightButton;
+			break;
+		case OIS::MB_Middle:
+			ceguiId = CEGUI::MiddleButton;
+			break;
+		default:
+			ceguiId = CEGUI::LeftButton;
+	}
+	return ceguiId;
 }
 
 PlayState* PlayState::getSingletonPtr ()
@@ -377,4 +405,57 @@ void PlayState::createHUD(){
 	CEGUI::System::getSingleton().setGUISheet(sheet);
 }
 
+void PlayState::GameOver(){
+	//Sheet
+	CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","GameOverWin");
+
+	//Config Window
+	CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadWindowLayout("MenuGameOver.layout");
+
+	//Setting Text!
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/TextGameOver")->setText("[vert-alignment='centre']GAME OVER ");
+
+	//NewGame Window
+	CEGUI::Window* newGameButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/NewButton");
+	newGameButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&PlayState::newGame, this));
+
+	//Reset Window
+	CEGUI::Window* resetButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/ResetButton");
+	resetButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&PlayState::reStart, this));
+
+	//Return Window
+	//CEGUI::Window* returnButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/ReturnButton");
+	//returnButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&IntroState::option, this));
+
+	//Attaching buttons
+	sheet->addChildWindow(formatWin);
+	CEGUI::System::getSingleton().setGUISheet(sheet);
+}
+
+bool PlayState::newGame(const CEGUI::EventArgs &e){
+	
+	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("GameOverWin");
+	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("HUDWin");
+	CEGUI::MouseCursor::getSingleton().hide( );
+	_level = 1;
+	_lifes = 3;
+	_gameOver = false;
+	_freezeTimer = Ogre::Timer();
+	_blockMgr->levelGenerator(1);
+	createHUD();
+	return true;
+}
+
+bool PlayState::reStart(const CEGUI::EventArgs &e){
+	
+	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("GameOverWin");
+	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("HUDWin");
+	CEGUI::MouseCursor::getSingleton().hide( );
+	_lifes = 3;
+	_gameOver = false;
+	_freezeTimer = Ogre::Timer();
+	_blockMgr->levelGenerator(_level);
+	createHUD();
+	return true;
+}
 

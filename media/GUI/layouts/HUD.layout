@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GUILayout>
-  <Window Name="FrameWindow" Type="ArkaGraf/FrameWindow">
-        <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{0.8,0},{1,0}}" />
-        <Property Name="FrameEnabled" Value="false" />
-        <Property Name="SizingEnabled" Value="false" />
-        <AutoWindow NameSuffix="__auto_titlebar__">
-            <Property Name="AlwaysOnTop" Value="false" />
-        </AutoWindow>
-        <AutoWindow NameSuffix="__auto_closebutton__">
-            <Property Name="AlwaysOnTop" Value="true" />
-        </AutoWindow>
-    </Window>
     <Window Name="FrameWindow2" Type="ArkaGraf/FrameWindow" >
     <Property Name="Text" Value=""/>
     <Property Name="TitlebarEnabled" Value="false"/>
