@@ -65,7 +65,7 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   bool frameStarted (const Ogre::FrameEvent& evt);
   bool frameEnded (const Ogre::FrameEvent& evt);
   
-  
+  void newGame(bool newGame);
 
   // Heredados de Ogre::Singleton.
   static PlayState& getSingleton ();
@@ -105,6 +105,8 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   //CEGUI::OgreRenderer* renderer;
   
   CEGUI::MouseButton convertMouseButton(OIS::MouseButtonID id);
+
+  bool _isNewGame; 
 	
   bool _DRight;
   bool _DLeft;

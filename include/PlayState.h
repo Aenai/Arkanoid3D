@@ -76,8 +76,7 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   void levelGenerator ();
   void createHUD();
   void GameOver();
-  bool newGame(const CEGUI::EventArgs &e);
-  bool reStart(const CEGUI::EventArgs &e);
+  bool close(const CEGUI::EventArgs &e);
 
  protected:
   Ogre::Root* _root;

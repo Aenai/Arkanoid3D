@@ -1,5 +1,6 @@
 #include "PlayState.h"
 #include "PauseState.h"
+#include "IntroState.h"
 #include "CollisionableObject.h"
 #include <math.h> /*fabs*/
 #include <SDL/SDL.h>
@@ -422,47 +423,23 @@ void PlayState::GameOver(){
 	//Setting Text!
 	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/TextGameOver")->setText("[vert-alignment='centre']GAME OVER ");
 
-	//NewGame Window
-	CEGUI::Window* newGameButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/NewButton");
-	newGameButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&PlayState::newGame, this));
-
-	//Reset Window
-	CEGUI::Window* resetButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/ResetButton");
-	resetButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&PlayState::reStart, this));
-
 	//Return Window
-	//CEGUI::Window* returnButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/ReturnButton");
-	//returnButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&IntroState::option, this));
+	CEGUI::Window* returnButton = CEGUI::WindowManager::getSingleton().getWindow("FormatWin/CloseButton");
+	returnButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&PlayState::close, this));
 
 	//Attaching buttons
 	sheet->addChildWindow(formatWin);
 	CEGUI::System::getSingleton().setGUISheet(sheet);
 }
 
-bool PlayState::newGame(const CEGUI::EventArgs &e){
+bool PlayState::close(const CEGUI::EventArgs &e){
 	
 	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("GameOverWin");
 	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("HUDWin");
 	CEGUI::MouseCursor::getSingleton().hide( );
-	_level = 1;
-	_lifes = 3;
-	_gameOver = false;
-	_freezeTimer = Ogre::Timer();
-	_blockMgr->levelGenerator(1);
-	createHUD();
+	//popState();
+	pushState(IntroState::getSingletonPtr());
 	return true;
 }
 
-bool PlayState::reStart(const CEGUI::EventArgs &e){
-	
-	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("GameOverWin");
-	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("HUDWin");
-	CEGUI::MouseCursor::getSingleton().hide( );
-	_lifes = 3;
-	_gameOver = false;
-	_freezeTimer = Ogre::Timer();
-	_blockMgr->levelGenerator(_level);
-	createHUD();
-	return true;
-}
 

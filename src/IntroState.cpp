@@ -268,7 +268,7 @@ void IntroState::creditMenu(){
 bool IntroState::initGame(const CEGUI::EventArgs &e){
 	CEGUI::MouseCursor::getSingleton().hide( );
 	//CEGUI::WindowManager::getSingletonPtr()->destroyAllWindows();
-	CEGUI::WindowManager::getSingletonPtr()->destroyWindow("MenuWin");
+	CEGUI::WindowManager::getSingletonPtr()->destroyAllWindows();
 	PlayState::getSingletonPtr()->newGame(true);
 	changeState(PlayState::getSingletonPtr());
 
