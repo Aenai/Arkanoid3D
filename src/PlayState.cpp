@@ -28,12 +28,12 @@ void PlayState::enter ()
 	_viewport->setBackgroundColour(Ogre::ColourValue(0.0, 0.0, 0.0));
 
 	//Paddle Initialization
-	Ogre::Entity* ent1 = _sceneMgr->createEntity("playerPaddle", "cube.mesh");
+	Ogre::Entity* ent1 = _sceneMgr->createEntity("playerPaddle", "PaddleMesh.mesh");
 	ent1->setQueryFlags(PLAYER);
 	_paddle = _sceneMgr->createSceneNode("playerPaddle");
 	_paddle->attachObject(ent1);
 	_sceneMgr->getRootSceneNode()->addChild(_paddle);
-	_paddle->setScale(4,1,1.2);
+	_paddle->setScale(1,1,1);
 	_paddle->setPosition(0,-35,-40);
 
 	//Bottom initialization
@@ -45,7 +45,7 @@ void PlayState::enter ()
 	bottom->setScale(60,60,1);
 	bottom->setPosition(0,-15,-55);
 	//Ball initialization
-	ent1 = _sceneMgr->createEntity("ball", "Cube.001.mesh");
+	ent1 = _sceneMgr->createEntity("ball", "BallMesh.mesh");
 	_ball = _sceneMgr->createSceneNode("ball");
 	_ball->attachObject(ent1);
 	_sceneMgr->getRootSceneNode()->addChild(_ball);
@@ -92,7 +92,7 @@ void PlayState::enter ()
 	
 	_yCollisionCheck = -100;
 	_yMinBall = 100;
-	_lifes = 300;
+	_lifes = 3;
 	
 	
 	//Level
@@ -144,6 +144,18 @@ bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 		if(playBall->getY() < -45){
 			_freezeTimer = Ogre::Timer();
 			_lifes--;
+			switch(_lifes)
+			{
+				case 0:
+					CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text3")->setText("[vert-alignment='centre'][image-size='w:100 h:35'][image='set:ArkaGraf image:ImgHeart0']");
+					break;
+				case 1:
+					CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text3")->setText("[vert-alignment='centre'][image-size='w:100 h:35'][image='set:ArkaGraf image:ImgHeart1']");
+					break;
+				case 2:
+					CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text3")->setText("[vert-alignment='centre'][image-size='w:100 h:35'][image='set:ArkaGraf image:ImgHeart2']");
+					break;
+			}
 			restartBall();
 		}
 		
@@ -154,6 +166,7 @@ bool PlayState::frameStarted (const Ogre::FrameEvent& evt)
 			_freezeTimer = Ogre::Timer();
 			restartBall();
 			levelGenerator();
+			CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text2")->setText("[vert-alignment='centre']" + StringConverter::toString(_level));
 			_lifes = 3;
 		}
 	
@@ -356,7 +369,7 @@ void PlayState::createHUD(){
 
 	//Setting Text!
 	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text1")->setText("[vert-alignment='centre']Nivel ");
-	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text2")->setText("[vert-alignment='centre']" + _level);
+	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text2")->setText("[vert-alignment='centre']" + StringConverter::toString(_level));
 	CEGUI::WindowManager::getSingleton().getWindow("FormatWin/Text3")->setText("[vert-alignment='centre'][image-size='w:100 h:35'][image='set:ArkaGraf image:ImgHeart3']");
 	
 	//Attaching buttons
