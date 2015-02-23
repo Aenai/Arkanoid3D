@@ -1,5 +1,6 @@
 #include "PlayState.h"
 #include "PauseState.h"
+#include "IntroState.h"
 #include "CollisionableObject.h"
 #include <math.h> /*fabs*/
 #include <SDL/SDL.h>
@@ -38,8 +39,8 @@ void PlayState::enter ()
 
 	//Bottom initialization
 	ent1 = _sceneMgr->createEntity("bottom", "cube.mesh");
-  ent1->setMaterialName("bottom");
-  Ogre::SceneNode* bottom = _sceneMgr->createSceneNode("bottom");
+  	ent1->setMaterialName("bottom");
+  	Ogre::SceneNode* bottom = _sceneMgr->createSceneNode("bottom");
 	bottom->attachObject(ent1);
 	_sceneMgr->getRootSceneNode()->addChild(bottom);
 	bottom->setScale(60,60,1);

@@ -39,8 +39,8 @@ void PlayState::enter ()
 
 	//Bottom initialization
 	ent1 = _sceneMgr->createEntity("bottom", "cube.mesh");
-  ent1->setMaterialName("bottom");
-  Ogre::SceneNode* bottom = _sceneMgr->createSceneNode("bottom");
+  	ent1->setMaterialName("bottom");
+  	Ogre::SceneNode* bottom = _sceneMgr->createSceneNode("bottom");
 	bottom->attachObject(ent1);
 	_sceneMgr->getRootSceneNode()->addChild(bottom);
 	bottom->setScale(60,60,1);
@@ -76,7 +76,7 @@ void PlayState::enter ()
   
 	_pTrackManager = new TrackManager;
   	_pSoundFXManager = new SoundFXManager;
-  	(_pTrackManager->load("lightintro.ogg"))->play();
+  	(_pTrackManager->load("DST-BreakOut.ogg"))->play();
 
  
 
