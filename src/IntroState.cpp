@@ -12,6 +12,15 @@ void IntroState::enter ()
 	_viewport = _root->getAutoCreatedWindow()->addViewport(_camera);
 	_viewport->setBackgroundColour(Ogre::ColourValue(1.0, 1.0, 1.0));
 
+	//Bottom initialization
+	Ogre::Entity* ent2 = _sceneMgr->createEntity("bottom", "cube.mesh");
+  	ent2->setMaterialName("bottom");
+  	Ogre::SceneNode* bottom = _sceneMgr->createSceneNode("bottom");
+	bottom->attachObject(ent2);
+	_sceneMgr->getRootSceneNode()->addChild(bottom);
+	bottom->setScale(60,60,1);
+	bottom->setPosition(0,-15,-55);
+
 	renderer = &CEGUI::OgreRenderer::bootstrapSystem();
 	createGUI();
 	_initGameControl = true;
@@ -63,6 +72,7 @@ void IntroState::keyPressed (const OIS::KeyEvent &e)
 			CEGUI::MouseCursor::getSingleton().hide( );
 			//CEGUI::WindowManager::getSingletonPtr()->destroyAllWindows();
 			CEGUI::WindowManager::getSingletonPtr()->destroyWindow("MenuWin");
+			PlayState::getSingletonPtr()->newGame(true);
 			changeState(PlayState::getSingletonPtr());
 		}
 	}
